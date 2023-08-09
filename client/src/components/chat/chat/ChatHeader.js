@@ -5,6 +5,7 @@ import {
   defaultGroupPicture,
   defaultProfilePicture,
 } from "../../../constants/data";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../../contex/auth";
 
 const Header = styled(Box)`
@@ -43,7 +44,7 @@ const Status = styled(Typography)`
 
 const ChatHeader = ({ person, group }) => {
   const { activeUsers } = useAuth(); // Move this to the top
-
+  const navigate = useNavigate();
   const isEmptyObject = (obj) => {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
   };
@@ -64,8 +65,28 @@ const ChatHeader = ({ person, group }) => {
 
   return (
     <Header>
-      <Image src={imageUrl} alt="dp" />
-      <Box>
+      <Image
+        src={imageUrl}
+        alt="dp"
+        style={{
+          cursor: group && !isEmptyObject(group) ? "pointer" : "default",
+        }}
+        onClick={() => {
+          if (group && !isEmptyObject(group)) {
+            navigate(`/${"updateGroup"}/${group?._id}`);
+          }
+        }}
+      />
+      <Box
+        style={{
+          cursor: group && !isEmptyObject(group) ? "pointer" : "default",
+        }}
+        onClick={() => {
+          if (group && !isEmptyObject(group)) {
+            navigate(`/${"updateGroup"}/${group?._id}`);
+          }
+        }}
+      >
         <Name>{person?.UserName || group?.name}</Name>
         <Status>{statusText}</Status>
       </Box>

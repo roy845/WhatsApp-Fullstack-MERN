@@ -1,28 +1,66 @@
 const { hashPassword } = require("../helpers/authHelper");
+const Message = require("../models/Message");
 const User = require("../models/User");
 
 const getUsersController = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    // Fetch the user by userId to get the list of blocked users
     const user = await User.findById(userId);
-
     if (!user) {
       return res.status(404).send({ message: "User not found." });
     }
 
-    // Find all users excluding the blocked users and the current user
-    const users = await User.find({
-      _id: { $nin: [...user.blockedUsers, userId] },
+    // Fetch latest messages related to the given user
+    const aggregateResult = await Message.aggregate([
+      {
+        $match: {
+          $or: [{ senderId: userId }, { receiverId: userId }],
+        },
+      },
+      {
+        $sort: { createdAt: -1 },
+      },
+      {
+        $group: {
+          _id: {
+            $cond: [{ $eq: ["$senderId", userId] }, "$receiverId", "$senderId"],
+          },
+          latestMessageDate: { $first: "$createdAt" },
+        },
+      },
+    ]);
+
+    const userWithMessagesMap = {};
+    aggregateResult.forEach((item) => {
+      userWithMessagesMap[item._id] = item.latestMessageDate;
     });
 
-    res.status(200).send(users);
+    // Fetch all users excluding the blocked ones and current user
+    const allUsers = await User.find({
+      _id: { $nin: [userId, ...user.blockedUsers] },
+    });
+
+    const usersWithTimestamp = allUsers.map((u) => {
+      return {
+        user: u,
+        latestMessageDate: userWithMessagesMap[u._id] || new Date(0), // Default to oldest date for users without messages
+      };
+    });
+
+    // Sort based on the timestamp
+    usersWithTimestamp.sort(
+      (a, b) => b.latestMessageDate - a.latestMessageDate
+    );
+
+    const sortedUsers = usersWithTimestamp.map((u) => u.user);
+
+    res.status(200).send(sortedUsers);
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error in getting all users",
+      message: "Error in getting users ordered by message date",
       error,
     });
   }

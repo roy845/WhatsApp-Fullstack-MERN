@@ -78,6 +78,7 @@ const Group = ({ group, isSelected, onSelect }) => {
 
     onSelect(group?._id);
     await setGroupConversation({
+      groupId: group?._id,
       senderId: auth?.user?._id,
       receiverIds: group?.members?.map((member) => member?._id),
     });
@@ -97,7 +98,9 @@ const Group = ({ group, isSelected, onSelect }) => {
         </Container>
         <Box>
           <Text>
-            {message?.senderName}:{message?.text}
+            {message?.senderName}
+            {message?.senderName && ":"}
+            {message?.text}
           </Text>
         </Box>
       </Box>

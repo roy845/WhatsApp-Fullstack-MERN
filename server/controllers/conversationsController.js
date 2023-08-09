@@ -49,7 +49,7 @@ const setConversationController = async (req, res) => {
 
 const setGroupConversationController = async (req, res) => {
   try {
-    const { senderId, receiverIds } = req.body; // Now expecting 'receiverIds' to be an array
+    const { senderId, receiverIds, groupId } = req.body; // Now expecting 'receiverIds' to be an array
 
     if (!Array.isArray(receiverIds)) {
       return res.status(400).send("receiverIds should be an array");
@@ -64,6 +64,7 @@ const setGroupConversationController = async (req, res) => {
     }
 
     const newConversation = new GroupConversation({
+      groupId: groupId,
       members: receiverIds,
     });
 

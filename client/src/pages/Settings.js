@@ -10,10 +10,12 @@ import {
   Typography,
   Box,
   styled,
+  Checkbox,
 } from "@material-ui/core";
 import LockIcon from "@mui/icons-material/Lock";
 import { useNavigate } from "react-router-dom";
 import { ArrowBack } from "@mui/icons-material";
+import { useAuth } from "../contex/auth";
 
 const Header = styled(Box)`
   background: #008069;
@@ -40,6 +42,8 @@ const dialogStyle = {
 
 const Settings = () => {
   const navigate = useNavigate();
+  const { showLastConversations, setShowLastConversations } = useAuth();
+
   return (
     <ChatLayout>
       <Dialog
@@ -80,6 +84,20 @@ const Settings = () => {
               primary="Account Privacy"
               secondary="Block Users"
               onClick={() => navigate("/accountPrivacy")}
+            />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <LockIcon />
+            </ListItemIcon>
+            <ListItemText primary="Show last 20 conversations" />
+            <Checkbox
+              checked={showLastConversations}
+              onChange={(e) => {
+                localStorage.setItem("showLastConversations", e.target.checked);
+
+                setShowLastConversations(e.target.checked);
+              }}
             />
           </ListItem>
         </List>

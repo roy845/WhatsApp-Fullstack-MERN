@@ -10,6 +10,10 @@ const AuthProvider = ({ children }) => {
   const [group, setGroup] = useState({});
   const [activeUsers, setActiveUsers] = useState([]);
   const [newMessageFlag, setNewMessageFlag] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [showLastConversations, setShowLastConversations] = useState(
+    JSON.parse(localStorage.getItem("showLastConversations"))
+  );
 
   const socket = useRef();
 
@@ -33,6 +37,10 @@ const AuthProvider = ({ children }) => {
         setActiveUsers,
         newMessageFlag,
         setNewMessageFlag,
+        users,
+        setUsers,
+        showLastConversations,
+        setShowLastConversations,
       }}
     >
       {children}

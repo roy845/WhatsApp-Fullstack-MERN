@@ -17,6 +17,8 @@ import {
   ListItemAvatar,
   Chip,
 } from "@material-ui/core";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css"; // Import the scrollbar styles
 
 import { useNavigate } from "react-router-dom";
 import { ArrowBack } from "@mui/icons-material";
@@ -138,7 +140,7 @@ const CreateGroup = () => {
 
   const handleCreateGroup = async () => {
     try {
-      await createGroup(groupName, usersToAdd);
+      await createGroup(groupName, auth?.user?._id, usersToAdd);
       toast.success("Group created successfully");
       navigate("/");
     } catch (error) {
@@ -146,7 +148,7 @@ const CreateGroup = () => {
     }
   };
 
-  console.log(usersToAdd);
+ 
 
   return (
     <ChatLayout>
@@ -160,122 +162,137 @@ const CreateGroup = () => {
         PaperProps={{ style: dialogStyle }}
         maxWidth={"md"}
       >
-        <Header>
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="flex-start"
-            justifyContent="space-between"
-          >
-            <ArrowBack
-              onClick={() => navigate(-1)}
-              style={{ cursor: "pointer" }}
-            />
-          </Box>
-        </Header>
-        <DialogTitle>
+        <PerfectScrollbar
+          component="div"
+          style={{
+            overflow: "hidden",
+            width: "100%",
+          }}
+        >
+          <Header>
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              justifyContent="space-between"
+            >
+              <ArrowBack
+                onClick={() => navigate(-1)}
+                style={{ cursor: "pointer" }}
+              />
+            </Box>
+          </Header>
+          <DialogTitle>
+            <Typography
+              variant="h6"
+              component="div"
+              style={{ textAlign: "center" }}
+            >
+              New Group
+            </Typography>
+          </DialogTitle>
+          <List style={{ textAlign: "center" }}>
+            <Grid container direction="column" spacing={2} alignItems="center">
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  id="name"
+                  label="Group Name"
+                  name="name"
+                  autoComplete="name"
+                  autoFocus
+                  value={groupName}
+                  onChange={handleNameChange}
+                  className={classes.blackBorder}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  id="search"
+                  label="Search users"
+                  name="search"
+                  autoComplete="search"
+                  autoFocus
+                  value={search}
+                  onChange={handleSearchChange}
+                  className={classes.blackBorder}
+                />
+              </Grid>
+            </Grid>
+          </List>
+          {/* Users list */}
           <Typography
             variant="h6"
             component="div"
-            style={{ textAlign: "center" }}
+            style={{ textAlign: "center", marginTop: "20px" }}
           >
-            New Group
+            Select Users
           </Typography>
-        </DialogTitle>
-        <List style={{ textAlign: "center" }}>
-          <Grid container direction="column" spacing={2} alignItems="center">
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                id="name"
-                label="Group Name"
-                name="name"
-                autoComplete="name"
-                autoFocus
-                value={groupName}
-                onChange={handleNameChange}
-                className={classes.blackBorder}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                id="search"
-                label="Search users"
-                name="search"
-                autoComplete="search"
-                autoFocus
-                value={search}
-                onChange={handleSearchChange}
-                className={classes.blackBorder}
-              />
-            </Grid>
-          </Grid>
-        </List>
-        {/* Users list */}
-        <Typography
-          variant="h6"
-          component="div"
-          style={{ textAlign: "center", marginTop: "20px" }}
-        >
-          Select Users
-        </Typography>
-        <List style={{ textAlign: "center" }}>
-          {members
-            ?.filter((member) => !usersToAdd.some((u) => u._id === member._id))
-            .map((user) => (
-              <ListItem
-                key={user._id}
-                button
-                onClick={() => handleAddUser(user)}
-                alignItems="center"
-              >
-                <ListItemAvatar>
-                  <Avatar src={user.profilePic || defaultProfilePicture} />
-                </ListItemAvatar>
-                <ListItemText primary={user.UserName} />
-              </ListItem>
-            ))}
-        </List>
+          <List style={{ textAlign: "center" }}>
+            {members
+              ?.filter(
+                (member) => !usersToAdd.some((u) => u._id === member._id)
+              )
+              .map((user) => (
+                <ListItem
+                  key={user._id}
+                  button
+                  onClick={() => handleAddUser(user)}
+                  alignItems="center"
+                >
+                  <ListItemAvatar>
+                    <Avatar src={user.profilePic || defaultProfilePicture} />
+                  </ListItemAvatar>
+                  <ListItemText primary={user.UserName} />
+                </ListItem>
+              ))}
+          </List>
 
-        <Typography
-          variant="h6"
-          component="div"
-          style={{ textAlign: "center", marginTop: "20px" }}
-        >
-          Selected Users
-        </Typography>
-        <Box display="flex" flexWrap="wrap" mt={2} mb={2}>
-          {usersToAdd.map((user) => (
-            <Box key={user._id} m={1}>
-              <Chip
-                avatar={
-                  <Avatar src={user.profilePic || defaultProfilePicture} />
-                }
-                label={user.UserName}
-                onDelete={() => handleRemoveUser(user._id)}
-                deleteIcon={<CloseIcon />}
-              />
-            </Box>
-          ))}
-        </Box>
-        <Box display="flex" justifyContent="center" alignItems="center" mt={3}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            style={{ backgroundColor: "#46c556", color: "white" }}
-            disabled={!groupName}
-            endIcon={<CreateIcon />}
-            onClick={handleCreateGroup}
+          <Typography
+            variant="h6"
+            component="div"
+            style={{ textAlign: "center", marginTop: "20px" }}
           >
-            Create
-          </Button>
-        </Box>
+            Selected Users
+          </Typography>
+          <Box display="flex" flexWrap="wrap" mt={2} mb={2}>
+            {usersToAdd.map((user) => (
+              <Box key={user._id} m={1}>
+                <Chip
+                  avatar={
+                    <Avatar src={user.profilePic || defaultProfilePicture} />
+                  }
+                  label={user.UserName}
+                  onDelete={() => handleRemoveUser(user._id)}
+                  deleteIcon={<CloseIcon />}
+                />
+              </Box>
+            ))}
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            mt={3}
+          >
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              style={{ backgroundColor: "#46c556", color: "white" }}
+              disabled={!groupName}
+              endIcon={<CreateIcon />}
+              onClick={handleCreateGroup}
+            >
+              Create
+            </Button>
+          </Box>
+        </PerfectScrollbar>
       </Dialog>
     </ChatLayout>
   );

@@ -1,4 +1,4 @@
-import { styled, Box, Typography } from "@mui/material";
+import { styled, Box, Typography, Badge } from "@mui/material";
 import { defaultProfilePicture } from "../../../constants/data";
 import { useAuth } from "../../../contex/auth";
 import { setConversation, getConversation } from "../../../Api/serverAPI";
@@ -42,7 +42,7 @@ const Text = styled(Typography)`
 `;
 
 const Conversation = ({ user, isSelected, onSelect }) => {
-  const imageUrl = user.profilePic || defaultProfilePicture;
+  const imageUrl = user?.profilePic || defaultProfilePicture;
 
   const { setPerson, setGroup, auth, newMessageFlag } = useAuth();
 
@@ -80,9 +80,11 @@ const Conversation = ({ user, isSelected, onSelect }) => {
       <Box>
         <Image src={imageUrl} alt="display picture" />
       </Box>
+
       <Box style={{ width: "100%" }}>
         <Container>
           <Typography>{user?.UserName}</Typography>
+
           {message?.text && (
             <Timestamp>{formatDate(message?.timestamp)}</Timestamp>
           )}

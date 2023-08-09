@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, Routes } from "react-router";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -10,7 +10,8 @@ import AccountPrivacy from "./pages/AccountPrivacy";
 import BlockedUsers from "./pages/BlockedUsers";
 import AddUsersToBlock from "./pages/AddUsersToBlock";
 import CreateGroup from "./pages/CreateGroup";
-import { getGroups } from "./Api/serverAPI";
+
+import UpdateGroup from "./pages/UpdateGroup";
 
 const AppRoutes = () => {
   const { auth } = useAuth();
@@ -24,6 +25,7 @@ const AppRoutes = () => {
       <Route path="/blockedUsers" element={<BlockedUsers />} />
       <Route path="/addUsersToBlock" element={<AddUsersToBlock />} />
       <Route path="/createGroup" element={<CreateGroup />} />
+      <Route path="/updateGroup/:groupId" element={<UpdateGroup />} />
       <Route path="/chat" element={<ChatDialog />} />
 
       <Route path="*" element={<NotFound />} />

@@ -6,6 +6,7 @@ import { useAuth } from "../../../contex/auth";
 import {
   getMessages,
   getMessagesGroup,
+  getUsers,
   newMessage,
   newMessageGroup,
 } from "../../../Api/serverAPI";
@@ -42,7 +43,8 @@ const Messages = ({ person, group, conversation }) => {
 
   const scrollRef = useRef();
 
-  const { auth, socket, newMessageFlag, setNewMessageFlag } = useAuth();
+  const { auth, socket, newMessageFlag, setNewMessageFlag, setUsers } =
+    useAuth();
 
   useEffect(() => {
     if (conversation?._id) {
@@ -69,7 +71,7 @@ const Messages = ({ person, group, conversation }) => {
     const getMessageDetails = async () => {
       try {
         let { data } = await getMessages(conversation?._id);
-        setMessages(data);
+        setMessages(data.reverse());
       } catch (error) {
         toast.error(error);
       }
@@ -79,7 +81,7 @@ const Messages = ({ person, group, conversation }) => {
       try {
         let { data } = await getMessagesGroup(conversation?._id);
 
-        setMessages(data);
+        setMessages(data.reverse());
       } catch (error) {
         toast.error(error);
       }
@@ -91,14 +93,19 @@ const Messages = ({ person, group, conversation }) => {
       getMessageGroupDetails();
   }, [person?._id, conversation?._id, group?._id, newMessageFlag]);
 
+  console.log(messages);
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ transition: "smooth" });
   }, [messages]);
 
   useEffect(() => {
     incomingMessage &&
-      conversation?.members.includes(incomingMessage.senderId) &&
-      setMessages((prev) => [...prev, incomingMessage]);
+      conversation?.members?.includes(incomingMessage.senderId) &&
+      setMessages((prev) => {
+        const newMessages = [...prev, incomingMessage];
+        // If the total messages exceed 20, chop off the oldest one
+        return newMessages.length > 20 ? newMessages.slice(1) : newMessages;
+      });
   }, [incomingMessage, conversation]);
 
   const receiverId = conversation?.members?.find(
@@ -119,6 +126,7 @@ const Messages = ({ person, group, conversation }) => {
           text: value,
         };
         socket.current.emit("sendMessage", message);
+
         await newMessage(message);
       }
       if (Object.keys(group).length > 0) {
@@ -135,6 +143,9 @@ const Messages = ({ person, group, conversation }) => {
       }
 
       setValue("");
+
+      const { data } = await getUsers(auth?.user?._id);
+      setUsers(data);
       setNewMessageFlag((prev) => !prev);
     }
   };

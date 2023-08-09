@@ -54,7 +54,6 @@ const SenderName = styled(Typography)`
 const Message = ({ message }) => {
   const { auth } = useAuth();
   const color = getUserColor(message?.senderId);
-  console.log(message);
 
   return (
     <>
@@ -65,7 +64,9 @@ const Message = ({ message }) => {
         </Own>
       ) : (
         <Wrapper color={color}>
-          <SenderName>{message?.senderName}:</SenderName>
+          <SenderName>
+            {message?.senderName} {message?.senderName && ":"}
+          </SenderName>
           <Text>{message?.text}</Text>
           <Time>{formatDate(message?.createdAt)}</Time>
         </Wrapper>

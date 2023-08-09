@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const GroupConversationSchema = new mongoose.Schema(
   {
+    groupId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Group",
+    },
     members: {
       type: Array,
     },

@@ -17,8 +17,16 @@ const StyledDivider = styled(Divider)`
 `;
 
 const Conversations = ({ text }) => {
-  const [users, setUsers] = useState([]);
-  const { auth, setAuth, socket, setActiveUsers } = useAuth();
+  const {
+    auth,
+    setAuth,
+    socket,
+    setActiveUsers,
+    users,
+    setUsers,
+    newMessageFlag,
+    showLastConversations,
+  } = useAuth();
   const [selectedUserId, setSelectedUserId] = useState(null);
 
   useEffect(() => {
@@ -28,7 +36,9 @@ const Conversations = ({ text }) => {
         const filteredData = data.filter((user) =>
           user.UserName.toLowerCase().includes(text.toLowerCase())
         );
-        setUsers(filteredData);
+        showLastConversations
+          ? setUsers(filteredData.splice(0, 20))
+          : setUsers(filteredData);
       } catch (error) {
         toast.error(error);
       }

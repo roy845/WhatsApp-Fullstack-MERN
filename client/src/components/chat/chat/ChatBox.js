@@ -35,8 +35,6 @@ const ChatBox = () => {
     !isEmptyObject(group) && getGroupConversationDetails();
   }, [person._id, group._id]);
 
-  console.log(conversation);
-
   return (
     <Box style={{ height: "75%" }}>
       <ChatHeader person={person} group={group} />

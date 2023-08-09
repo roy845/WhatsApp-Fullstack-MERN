@@ -7,7 +7,9 @@ const User = require("../models/User");
 const getMessagesController = async (req, res) => {
   try {
     const { conversationId } = req.params;
-    const messages = await Message.find({ conversationId: conversationId });
+    const messages = await Message.find({ conversationId: conversationId })
+      .sort({ createdAt: -1 })
+      .limit(20);
 
     res.status(200).send(messages);
   } catch (error) {
@@ -46,7 +48,9 @@ const getMessagesGroupController = async (req, res) => {
 
     const messages = await MessageGroup.find({
       conversationId: conversationId,
-    });
+    })
+      .sort({ createdAt: -1 })
+      .limit(20);
 
     // Get unique senderIds from the messages
     const senderIds = [

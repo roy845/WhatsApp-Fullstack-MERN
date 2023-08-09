@@ -20,6 +20,11 @@ const API_URLS = {
   unBlockUser: `${BASE_URL}api/users/unBlockUser/`,
   createGroup: `${BASE_URL}api/groups/createGroup`,
   getGroups: `${BASE_URL}api/groups/getGroups/`,
+  getGroup: `${BASE_URL}api/groups/getGroup/`,
+  updateGroup: `${BASE_URL}api/groups/updateGroup/`,
+  deleteGroup: `${BASE_URL}api/groups/deleteGroup/`,
+  leaveGroup: `${BASE_URL}api/groups/leaveGroup/`,
+  getUsersNotInGroup: `${BASE_URL}api/groups/getUsersNotInGroup/`,
 };
 
 export const login = (UserName, Password) => {
@@ -152,10 +157,11 @@ export const blockUser = (userId, blockedUserId) => {
   }
 };
 
-export const createGroup = (groupName, usersToAdd) => {
+export const createGroup = (groupName, creator, usersToAdd) => {
   try {
     return axios.post(`${API_URLS.createGroup}`, {
       groupName,
+      creator,
       usersToAdd,
     });
   } catch (error) {
@@ -166,6 +172,49 @@ export const createGroup = (groupName, usersToAdd) => {
 export const getGroups = (userId) => {
   try {
     return axios.get(`${API_URLS.getGroups}${userId}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getGroup = (groupId) => {
+  try {
+    return axios.get(`${API_URLS.getGroup}${groupId}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateGroup = (groupId, groupName, profilePic, members) => {
+  try {
+    return axios.put(`${API_URLS.updateGroup}${groupId}`, {
+      groupName,
+      profilePic,
+      members,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+export const deleteGroup = (groupId) => {
+  try {
+    return axios.delete(`${API_URLS.deleteGroup}${groupId}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const leaveGroup = (groupId, userId) => {
+  try {
+    return axios.post(`${API_URLS.leaveGroup}${groupId}/${userId}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUsersNotInGroup = (groupId) => {
+  try {
+    return axios.get(`${API_URLS.getUsersNotInGroup}${groupId}`);
   } catch (error) {
     throw error;
   }
