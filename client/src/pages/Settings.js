@@ -16,6 +16,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import { useNavigate } from "react-router-dom";
 import { ArrowBack } from "@mui/icons-material";
 import { useAuth } from "../contex/auth";
+import HistoryIcon from "@material-ui/icons/History";
 
 const Header = styled(Box)`
   background: #008069;
@@ -88,7 +89,7 @@ const Settings = () => {
           </ListItem>
           <ListItem button>
             <ListItemIcon>
-              <LockIcon />
+              <HistoryIcon />
             </ListItemIcon>
             <ListItemText primary="Show last 20 conversations" />
             <Checkbox

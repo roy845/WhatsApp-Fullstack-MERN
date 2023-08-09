@@ -14,6 +14,8 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { getBlockedUsers } from "../Api/serverAPI";
 import BlockedUser from "../components/BlockedUser";
 import { useAuth } from "../contex/auth";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css"; // Import the scrollbar styles
 
 const Header = styled(Box)`
   background: #008069;
@@ -61,52 +63,60 @@ const BlockedUsers = () => {
         PaperProps={{ style: dialogStyle }}
         maxWidth={"md"}
       >
-        <Header>
-          {" "}
+        <PerfectScrollbar
+          component="div"
+          style={{
+            overflow: "hidden",
+            width: "100%",
+          }}
+        >
+          <Header>
+            {" "}
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              justifyContent="space-between"
+            >
+              <ArrowBack
+                onClick={() => navigate(-1)}
+                style={{ cursor: "pointer" }}
+              />
+            </Box>
+          </Header>
           <Box
             display="flex"
-            flexDirection="column"
-            alignItems="flex-start"
-            justifyContent="space-between"
+            alignItems="center"
+            justifyContent="center"
+            style={{ cursor: "pointer" }}
           >
-            <ArrowBack
-              onClick={() => navigate(-1)}
-              style={{ cursor: "pointer" }}
+            <DialogTitle>
+              <Typography
+                variant="h6"
+                component="div"
+                style={{ textAlign: "center" }}
+              >
+                BlockedUsers
+              </Typography>
+            </DialogTitle>
+            <PersonAddIcon
+              style={{ marginLeft: "20px" }}
+              onClick={() => navigate("/addUsersToBlock")}
             />
           </Box>
-        </Header>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          style={{ cursor: "pointer" }}
-        >
-          <DialogTitle>
-            <Typography
-              variant="h6"
-              component="div"
-              style={{ textAlign: "center" }}
-            >
-              BlockedUsers
-            </Typography>
-          </DialogTitle>
-          <PersonAddIcon
-            style={{ marginLeft: "20px" }}
-            onClick={() => navigate("/addUsersToBlock")}
-          />
-        </Box>
 
-        <List>
-          {blockedUsers.length > 0 ? (
-            blockedUsers.map((user) => (
-              <BlockedUser key={user._id} user={user} />
-            ))
-          ) : (
-            <Typography variant="body1">
-              No blocked users were found.
-            </Typography>
-          )}
-        </List>
+          <List>
+            {blockedUsers.length > 0 ? (
+              blockedUsers.map((user) => (
+                <BlockedUser key={user._id} user={user} />
+              ))
+            ) : (
+              <Typography variant="body1">
+                No blocked users were found.
+              </Typography>
+            )}
+          </List>
+        </PerfectScrollbar>
       </Dialog>
     </ChatLayout>
   );

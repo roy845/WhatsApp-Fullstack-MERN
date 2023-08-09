@@ -71,7 +71,7 @@ const Messages = ({ person, group, conversation }) => {
     const getMessageDetails = async () => {
       try {
         let { data } = await getMessages(conversation?._id);
-        setMessages(data.reverse());
+        setMessages(data);
       } catch (error) {
         toast.error(error);
       }
@@ -81,7 +81,7 @@ const Messages = ({ person, group, conversation }) => {
       try {
         let { data } = await getMessagesGroup(conversation?._id);
 
-        setMessages(data.reverse());
+        setMessages(data);
       } catch (error) {
         toast.error(error);
       }

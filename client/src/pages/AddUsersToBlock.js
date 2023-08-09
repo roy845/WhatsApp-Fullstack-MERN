@@ -15,6 +15,8 @@ import { useAuth } from "../contex/auth";
 import { getUnblockedUsers } from "../Api/serverAPI";
 import { toast } from "react-hot-toast";
 import UnblockedUser from "../components/UnblockedUser";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css"; // Import the scrollbar styles
 
 const Header = styled(Box)`
   background: #008069;
@@ -64,48 +66,56 @@ const AddUsersToBlock = () => {
         PaperProps={{ style: dialogStyle }}
         maxWidth={"md"}
       >
-        <Header>
-          {" "}
+        <PerfectScrollbar
+          component="div"
+          style={{
+            overflow: "hidden",
+            width: "100%",
+          }}
+        >
+          <Header>
+            {" "}
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              justifyContent="space-between"
+            >
+              <ArrowBack
+                onClick={() => navigate(-1)}
+                style={{ cursor: "pointer" }}
+              />
+            </Box>
+          </Header>
           <Box
             display="flex"
-            flexDirection="column"
-            alignItems="flex-start"
-            justifyContent="space-between"
+            alignItems="center"
+            justifyContent="center"
+            style={{ cursor: "pointer" }}
           >
-            <ArrowBack
-              onClick={() => navigate(-1)}
-              style={{ cursor: "pointer" }}
-            />
+            <DialogTitle>
+              <Typography
+                variant="h6"
+                component="div"
+                style={{ textAlign: "center" }}
+              >
+                Choose Users To Block
+              </Typography>
+            </DialogTitle>
           </Box>
-        </Header>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          style={{ cursor: "pointer" }}
-        >
-          <DialogTitle>
-            <Typography
-              variant="h6"
-              component="div"
-              style={{ textAlign: "center" }}
-            >
-              Choose Users To Block
-            </Typography>
-          </DialogTitle>
-        </Box>
 
-        <List>
-          {unblockedUsers.length > 0 ? (
-            unblockedUsers.map((user) => (
-              <UnblockedUser key={user._id} user={user} />
-            ))
-          ) : (
-            <Typography variant="body1">
-              No unblocked users were found.
-            </Typography>
-          )}
-        </List>
+          <List>
+            {unblockedUsers.length > 0 ? (
+              unblockedUsers.map((user) => (
+                <UnblockedUser key={user._id} user={user} />
+              ))
+            ) : (
+              <Typography variant="body1">
+                No unblocked users were found.
+              </Typography>
+            )}
+          </List>
+        </PerfectScrollbar>
       </Dialog>
     </ChatLayout>
   );
