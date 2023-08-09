@@ -6,7 +6,9 @@ This project is build with ReactJs,NodeJS,MongoDB,Express,JWT.
 ## Tech Stack
 
 <b>Backend:</b> Node.js with Express
+
 <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" width="124px" height="124px">
+
 <img src = "https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" width = "60px" height = "60px">
 
 <b>Real-Time Data Transfer:</b> Socket.io
@@ -14,9 +16,13 @@ This project is build with ReactJs,NodeJS,MongoDB,Express,JWT.
  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Socket-io.svg/600px-Socket-io.svg.png?20200308235956" width="124px" height="124px">
 
 <b>Frontend:</b> React
+
 <img src="https://upload.wikimedia.org/wikipedia/he/a/a7/React-icon.svg" width="124px" height="124px">
+
 <b>Database:</b> MongoDB
+
 <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" width="124px" height="124px">
+
 
 ## Core Principle
 
