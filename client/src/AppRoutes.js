@@ -12,6 +12,7 @@ import AddUsersToBlock from "./pages/AddUsersToBlock";
 import CreateGroup from "./pages/CreateGroup";
 
 import UpdateGroup from "./pages/UpdateGroup";
+import RequireAuth from "./components/RequireAuth";
 
 const AppRoutes = () => {
   const { auth } = useAuth();
@@ -20,13 +21,15 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/register" element={<Register />} />
       <Route path="/" element={!auth ? <Login /> : <ChatDialog />} />
-      <Route path="/settings" element={<Settings />} />
-      <Route path="/accountPrivacy" element={<AccountPrivacy />} />
-      <Route path="/blockedUsers" element={<BlockedUsers />} />
-      <Route path="/addUsersToBlock" element={<AddUsersToBlock />} />
-      <Route path="/createGroup" element={<CreateGroup />} />
-      <Route path="/updateGroup/:groupId" element={<UpdateGroup />} />
-      <Route path="/chat" element={<ChatDialog />} />
+      <Route element={<RequireAuth />}>
+        <Route path="/chat" element={<ChatDialog />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/accountPrivacy" element={<AccountPrivacy />} />
+        <Route path="/blockedUsers" element={<BlockedUsers />} />
+        <Route path="/addUsersToBlock" element={<AddUsersToBlock />} />
+        <Route path="/createGroup" element={<CreateGroup />} />
+        <Route path="/updateGroup/:groupId" element={<UpdateGroup />} />
+      </Route>
 
       <Route path="*" element={<NotFound />} />
     </Routes>
