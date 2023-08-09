@@ -5,19 +5,33 @@ This project is build with ReactJs,NodeJS,MongoDB,Express,JWT.
 
 ## Tech Stack
 
-<b>Backend:</b> Node.js with Express
+- <b>Backend:</b> Node.js with Express
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" width="124px" height="124px">
 
 <img src = "https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" width = "60px" height = "60px">
 
-<b>Real-Time Data Transfer:</b> Socket.io
+**JWT (JSON Web Tokens)**
+
+<img src = "https://cdn.worldvectorlogo.com/logos/jwt-3.svg" width = "60px" height = "60px">
+
+
+- <b>Real-Time Data Transfer:</b> Socket.io
 
  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Socket-io.svg/600px-Socket-io.svg.png?20200308235956" width="124px" height="124px">
 
-<b>Frontend:</b> React
+- <b>Frontend:</b> React and Material UI
 
 <img src="https://upload.wikimedia.org/wikipedia/he/a/a7/React-icon.svg" width="124px" height="124px">
+
+**Material UI**
+  <img src="https://imgtr.ee/images/2023/08/05/d973e444eea4230bcba93cb79b1168e0.png" alt="d973e444eea4230bcba93cb79b1168e0.png" width = "60px" height = "60px">
+
+- **IDE**
+
+**VSCODE**
+<img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" width="60px" height="60px">
+
 
 <b>Database:</b> MongoDB
 
