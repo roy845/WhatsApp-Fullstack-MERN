@@ -1,37 +1,19 @@
 import React from "react";
-import { Route, Routes } from "react-router";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import { useAuth } from "./contex/auth";
-import ChatDialog from "./components/chat/ChatDialog";
-import NotFound from "./pages/NotFound";
-import Settings from "./pages/Settings";
-import AccountPrivacy from "./pages/AccountPrivacy";
-import BlockedUsers from "./pages/BlockedUsers";
-import AddUsersToBlock from "./pages/AddUsersToBlock";
-import CreateGroup from "./pages/CreateGroup";
-
-import UpdateGroup from "./pages/UpdateGroup";
+import { Route, Routes } from "react-router-dom";
+import Homepage from "./pages/Homepage";
+import ChatPage from "./pages/ChatPage";
+import { useAuth } from "./context/auth";
 import RequireAuth from "./components/RequireAuth";
 
 const AppRoutes = () => {
   const { auth } = useAuth();
-
   return (
     <Routes>
-      <Route path="/register" element={<Register />} />
-      <Route path="/" element={!auth ? <Login /> : <ChatDialog />} />
-      <Route element={<RequireAuth />}>
-        <Route path="/chat" element={<ChatDialog />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/accountPrivacy" element={<AccountPrivacy />} />
-        <Route path="/blockedUsers" element={<BlockedUsers />} />
-        <Route path="/addUsersToBlock" element={<AddUsersToBlock />} />
-        <Route path="/createGroup" element={<CreateGroup />} />
-        <Route path="/updateGroup/:groupId" element={<UpdateGroup />} />
-      </Route>
+      <Route path="/" element={!auth ? <Homepage /> : <ChatPage />} />
 
-      <Route path="*" element={<NotFound />} />
+      <Route element={<RequireAuth />}>
+        <Route path="/chats" element={<ChatPage />} />
+      </Route>
     </Routes>
   );
 };

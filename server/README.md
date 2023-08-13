@@ -37,6 +37,7 @@ This project is build with ReactJs,NodeJS,MongoDB,Express,JWT.
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" width="124px" height="124px">
 
+
 ## Core Principle
 
 The essence of a real-time messaging app like this one lies in its ability to immediately "push" new data (in this case, messages) from the server to the client. This ensures instantaneous delivery and updating without waiting for the client to request new data. We achieve this using Socket.io library.

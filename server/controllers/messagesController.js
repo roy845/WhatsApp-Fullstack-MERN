@@ -1,114 +1,98 @@
-const Message = require("../models/Message");
-const Conversation = require("../models/Conversation");
-const MessageGroup = require("../models/MessageGroup");
-const GroupConversation = require("../models/GroupConversation");
-const User = require("../models/User");
+const Message = require("../models/MessageModel");
+const User = require("../models/UserModel");
+const Chat = require("../models/ChatModel");
+const asyncHandler = require("express-async-handler");
 
-const getMessagesController = async (req, res) => {
-  try {
-    const { conversationId } = req.params;
-    const messages = await Message.find({ conversationId: conversationId });
+const sendMessageController = asyncHandler(async (req, res) => {
+  const { content, chatId } = req.body;
 
-    res.status(200).send(messages);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Error in getting messages",
-      error,
-    });
+  if (!content || !chatId) {
+    return res.status(400).send("Invalid Data passed into request");
   }
-};
 
-const newMessageController = async (req, res) => {
   try {
-    const newMessage = new Message(req.body);
+    // Fetch the chat to get the users
+    const chat = await Chat.findById(chatId);
 
-    await newMessage.save();
-    await Conversation.findByIdAndUpdate(req.body.conversationId, {
-      message: req.body.text,
+    // Fetch all users whom the current user has blocked
+    const usersBlockedByCurrentUser = await User.findOne({
+      _id: req.user.id,
+    }).select("blockedUsers");
+    const blockedUserIds = usersBlockedByCurrentUser.blockedUsers.map((id) =>
+      id.toString()
+    );
+
+    // Check if the current user has blocked any user in the chat
+    const hasBlockedAnyUserInChat = chat.users.some((userId) => {
+      return blockedUserIds.includes(userId.toString());
     });
 
-    res.status(200).send("Message has been sent successfully");
+    if (hasBlockedAnyUserInChat) {
+      return res
+        .status(401)
+        .send(
+          "You have been blocked by this user. you cannot send him messages."
+        );
+    }
+
+    // Fetch all users who have the current user in their blocked list
+    const usersWhoBlockedCurrentUser = await User.find({
+      blockedUsers: req.user.id,
+    }).select("_id");
+    const blockedByUserIds = usersWhoBlockedCurrentUser.map((user) =>
+      user._id.toString()
+    );
+
+    // Check if any user in the chat has blocked the current user
+    const isBlockedByAnyUserInChat = chat.users.some((userId) => {
+      return blockedByUserIds.includes(userId.toString());
+    });
+
+    if (isBlockedByAnyUserInChat) {
+      return res
+        .status(403)
+        .send(
+          "This user is blocked, you need to cancel the block of this user in order to send him a message"
+        );
+    }
+
+    let newMessage = {
+      sender: req.user.id,
+      content: content,
+      chat: chatId,
+    };
+
+    let message = await new Message(newMessage).save();
+
+    message = await message.populate("sender", "name profilePic");
+    message = await message.populate("chat");
+    message = await User.populate(message, {
+      path: "chat.users",
+      select: "name profilePic email",
+    });
+
+    await Chat.findByIdAndUpdate(chatId, { latestMessage: message });
+
+    res.json(message);
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Error in creating message",
-      error,
-    });
+    return res.status(400).send(error.message);
   }
-};
+});
 
-const getMessagesGroupController = async (req, res) => {
+const getAllMessagesController = asyncHandler(async (req, res) => {
   try {
-    const { conversationId } = req.params;
+    const { chatId } = req.params;
+    const messages = await Message.find({ chat: chatId })
+      .populate("sender", "name profilePic email")
+      .populate("chat");
 
-    const messages = await MessageGroup.find({
-      conversationId: conversationId,
-    });
-
-    // Get unique senderIds from the messages
-    const senderIds = [
-      ...new Set(messages.map((message) => String(message.senderId))),
-    ];
-
-    // Fetch all users with these sender IDs at once
-    const users = await User.find({
-      _id: { $in: senderIds },
-    });
-
-    // Create a mapping of userId to userName
-    const userIdToNameMap = {};
-    users.forEach((user) => {
-      userIdToNameMap[user._id.toString()] = user.UserName;
-    });
-
-    // Add senderName to each message using the map
-    const populatedMessages = messages.map((message) => {
-      const augmentedMessage = message.toObject();
-      augmentedMessage.senderName =
-        userIdToNameMap[message.senderId.toString()];
-      return augmentedMessage;
-    });
-
-    res.status(200).send(populatedMessages);
+    res.json(messages);
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Error in getting messages",
-      error,
-    });
+    return res.status(400).send(error.message);
   }
-};
-
-const newMessageGroupController = async (req, res) => {
-  try {
-    const newMessage = new MessageGroup(req.body);
-
-    await newMessage.save();
-
-    // Step 1: Update the GroupConversation document
-    await GroupConversation.findByIdAndUpdate(req.body.conversationId, {
-      message: req.body.text,
-      sender: req.body.senderId,
-    });
-
-    res.status(200).send("Message has been sent successfully");
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Error in creating message",
-      error,
-    });
-  }
-};
+});
 
 module.exports = {
-  newMessageController,
-  getMessagesController,
-  getMessagesGroupController,
-  newMessageGroupController,
+  sendMessageController,
+  getAllMessagesController,
 };

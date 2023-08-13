@@ -1,51 +1,44 @@
 const express = require("express");
-
 const {
-  getUsersController,
+  searchUsersController,
+  addUsersToBlockedListController,
+  removeUsersFromBlockedListController,
+  searchBlockedListUsersController,
+  getUserController,
   updateUserController,
-
-  getUnblockedUsersController,
-  blockUserController,
-  unBlockUserController,
-  getBlockedUsersController,
 } = require("../controllers/usersController");
-
 const { requireSignIn } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-//getUsers || METHOD GET
-router.get("/getUsers/:userId", requireSignIn, getUsersController);
+//searchUsers || METHOD GET
+router.get("/searchUsers", requireSignIn, searchUsersController);
+
+//getUser || METHOD GET
+router.get("/getUser/:userId", requireSignIn, getUserController);
 
 //updateUser || METHOD PUT
-router.put("/updateUser/:id", requireSignIn, updateUserController);
+router.put("/updateUser/:userId", requireSignIn, updateUserController);
 
-//getUnblockedUsers || METHOD GET
-router.get(
-  "/getUnblockedUsers/:userId",
+//addUsersToBlockedList || METHOD POST
+router.post(
+  "/addUsersToBlockedList",
   requireSignIn,
-  getUnblockedUsersController
+  addUsersToBlockedListController
+);
+
+//removeUsersFromBlockedList || METHOD POST
+router.post(
+  "/removeUsersFromBlockedList",
+  requireSignIn,
+  removeUsersFromBlockedListController
 );
 
 //getBlockedUsers || METHOD GET
 router.get(
-  "/getBlockedUsers/:userId",
+  "/searchBlockedListUsers",
   requireSignIn,
-  getBlockedUsersController
-);
-
-//blockUser || METHOD POST
-router.post(
-  "/blockUser/:userId/:blockedUserId",
-  requireSignIn,
-  blockUserController
-);
-
-//unBlockUser || METHOD POST
-router.post(
-  "/unBlockUser/:userId/:blockedUserId",
-  requireSignIn,
-  unBlockUserController
+  searchBlockedListUsersController
 );
 
 module.exports = router;

@@ -4,217 +4,177 @@ const BASE_URL = "http://localhost:8800/";
 const API_URLS = {
   login: `${BASE_URL}api/auth/login`,
   register: `${BASE_URL}api/auth/register`,
-  getUsers: `${BASE_URL}api/users/getUsers/`,
+  searchUsers: `${BASE_URL}api/users/searchUsers`,
+  createChat: `${BASE_URL}api/chat/createChat`,
+  getChats: `${BASE_URL}api/chat/fetchChat`,
+  createGroupChat: `${BASE_URL}api/chat/createGroupChat`,
+  renameGroupChat: `${BASE_URL}api/chat/renameGroupChat`,
+  addToGroupChat: `${BASE_URL}api/chat/addToGroupChat`,
+  removeFromGroupChat: `${BASE_URL}api/chat/removeFromGroupChat`,
+  sendMessage: `${BASE_URL}api/messages/sendMessage`,
+  getAllMessages: `${BASE_URL}api/messages/getAllMessages/`,
+  addUsersToBlockedList: `${BASE_URL}api/users/addUsersToBlockedList`,
+  removeUsersFromBlockedList: `${BASE_URL}api/users/removeUsersFromBlockedList`,
+  searchBlockedListUsers: `${BASE_URL}api/users/searchBlockedListUsers`,
+  createNotification: `${BASE_URL}api/notifications/createNotification`,
+  getAllNotifications: `${BASE_URL}api/notifications/getAllNotifications`,
+  removeNotification: `${BASE_URL}api/notifications/removeNotification/`,
+  getUser: `${BASE_URL}api/users/getUser/`,
   updateUser: `${BASE_URL}api/users/updateUser/`,
-  getConversation: `${BASE_URL}api/conversations/getConversation`,
-  getGroupConversation: `${BASE_URL}api/conversations/getGroupConversation`,
-  newMessage: `${BASE_URL}api/messages/newMessage`,
-  getMessages: `${BASE_URL}api/messages/getMessages/`,
-  newMessageGroup: `${BASE_URL}api/messages/newMessageGroup`,
-  getMessagesGroup: `${BASE_URL}api/messages/getMessagesGroup/`,
-  setConversation: `${BASE_URL}api/conversations/setConversation`,
-  setGroupConversation: `${BASE_URL}api/conversations/setGroupConversation`,
-  getUnblockedUsers: `${BASE_URL}api/users/getUnblockedUsers/`,
-  getBlockedUsers: `${BASE_URL}api/users/getBlockedUsers/`,
-  blockUser: `${BASE_URL}api/users/blockUser/`,
-  unBlockUser: `${BASE_URL}api/users/unBlockUser/`,
-  createGroup: `${BASE_URL}api/groups/createGroup`,
-  getGroups: `${BASE_URL}api/groups/getGroups/`,
-  getGroup: `${BASE_URL}api/groups/getGroup/`,
-  updateGroup: `${BASE_URL}api/groups/updateGroup/`,
-  deleteGroup: `${BASE_URL}api/groups/deleteGroup/`,
-  leaveGroup: `${BASE_URL}api/groups/leaveGroup/`,
-  getUsersNotInGroup: `${BASE_URL}api/groups/getUsersNotInGroup/`,
 };
 
-export const login = (UserName, Password) => {
+export const login = (email, password) => {
   try {
-    return axios.post(API_URLS.login, { UserName, Password });
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const register = (FirstName, LastName, UserName, Password) => {
-  try {
-    return axios.post(API_URLS.register, {
-      FirstName,
-      LastName,
-      UserName,
-      Password,
+    return axios.post(API_URLS.login, {
+      email,
+      password,
     });
   } catch (error) {
     throw error;
   }
 };
 
-export const getUsers = (userId) => {
+export const register = (name, email, password, profilePic) => {
   try {
-    return axios.get(`${API_URLS.getUsers}${userId}`);
+    return axios.post(API_URLS.register, { name, email, password, profilePic });
   } catch (error) {
     throw error;
   }
 };
 
-export const updateUser = (id, updatedUser) => {
+export const searchUsers = (search) => {
   try {
-    return axios.put(`${API_URLS.updateUser}${id}`, updatedUser);
+    return axios.get(`${API_URLS.searchUsers}?search=${search}`);
   } catch (error) {
     throw error;
   }
 };
 
-export const getConversation = (data) => {
+export const addUsersToBlockedList = (userIdsToBlock) => {
   try {
-    return axios.post(API_URLS.getConversation, data);
+    return axios.post(`${API_URLS.addUsersToBlockedList}`, { userIdsToBlock });
   } catch (error) {
     throw error;
   }
 };
 
-export const getGroupConversation = (data) => {
+export const removeUsersFromBlockedList = (userIdsToRemove) => {
   try {
-    return axios.post(API_URLS.getGroupConversation, data);
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const setGroupConversation = (data) => {
-  try {
-    return axios.post(API_URLS.setGroupConversation, data);
-  } catch (error) {
-    throw error;
-  }
-};
-export const setConversation = (data) => {
-  try {
-    return axios.post(API_URLS.setConversation, data);
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const newMessageGroup = (data) => {
-  try {
-    return axios.post(API_URLS.newMessageGroup, data);
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const getMessagesGroup = (conversationId) => {
-  try {
-    return axios.get(`${API_URLS.getMessagesGroup}${conversationId}`);
-  } catch (error) {
-    throw error;
-  }
-};
-export const newMessage = (data) => {
-  try {
-    return axios.post(API_URLS.newMessage, data);
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const getMessages = (conversationId) => {
-  try {
-    return axios.get(`${API_URLS.getMessages}${conversationId}`);
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const getBlockedUsers = (userId) => {
-  try {
-    return axios.get(`${API_URLS.getBlockedUsers}${userId}`);
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const getUnblockedUsers = (userId) => {
-  try {
-    return axios.get(`${API_URLS.getUnblockedUsers}${userId}`);
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const unBlockUser = (userId, blockedUserId) => {
-  try {
-    return axios.post(`${API_URLS.unBlockUser}${userId}/${blockedUserId}`);
-  } catch (error) {
-    throw error;
-  }
-};
-export const blockUser = (userId, blockedUserId) => {
-  try {
-    return axios.post(`${API_URLS.blockUser}${userId}/${blockedUserId}`);
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const createGroup = (groupName, creator, usersToAdd) => {
-  try {
-    return axios.post(`${API_URLS.createGroup}`, {
-      groupName,
-      creator,
-      usersToAdd,
+    return axios.post(`${API_URLS.removeUsersFromBlockedList}`, {
+      userIdsToRemove,
     });
   } catch (error) {
     throw error;
   }
 };
 
-export const getGroups = (userId) => {
+export const searchBlockedListUsers = (search) => {
   try {
-    return axios.get(`${API_URLS.getGroups}${userId}`);
+    return axios.get(`${API_URLS.searchBlockedListUsers}?search=${search}`);
   } catch (error) {
     throw error;
   }
 };
 
-export const getGroup = (groupId) => {
+export const createChat = (userId) => {
   try {
-    return axios.get(`${API_URLS.getGroup}${groupId}`);
+    return axios.post(`${API_URLS.createChat}`, { userId });
   } catch (error) {
     throw error;
   }
 };
 
-export const updateGroup = (groupId, groupName, profilePic, members) => {
+export const getChats = (checked) => {
   try {
-    return axios.put(`${API_URLS.updateGroup}${groupId}`, {
-      groupName,
-      profilePic,
-      members,
-    });
-  } catch (error) {
-    throw error;
-  }
-};
-export const deleteGroup = (groupId) => {
-  try {
-    return axios.delete(`${API_URLS.deleteGroup}${groupId}`);
+    return axios.get(`${API_URLS.getChats}?checked=${checked}`);
   } catch (error) {
     throw error;
   }
 };
 
-export const leaveGroup = (groupId, userId) => {
+export const createGroupChat = (name, users) => {
   try {
-    return axios.post(`${API_URLS.leaveGroup}${groupId}/${userId}`);
+    return axios.post(`${API_URLS.createGroupChat}`, { name, users });
   } catch (error) {
     throw error;
   }
 };
 
-export const getUsersNotInGroup = (groupId) => {
+export const renameGroupChat = (chatId, chatName) => {
   try {
-    return axios.get(`${API_URLS.getUsersNotInGroup}${groupId}`);
+    return axios.put(`${API_URLS.renameGroupChat}`, { chatId, chatName });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addToGroupChat = (chatId, userId) => {
+  try {
+    return axios.put(`${API_URLS.addToGroupChat}`, { chatId, userId });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const removeFromGroupChat = (chatId, userId) => {
+  try {
+    return axios.put(`${API_URLS.removeFromGroupChat}`, { chatId, userId });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const sendNewMessage = (chatId, content) => {
+  try {
+    return axios.post(`${API_URLS.sendMessage}`, { chatId, content });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllMessages = (chatId) => {
+  try {
+    return axios.get(`${API_URLS.getAllMessages}${chatId}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createNotification = (data) => {
+  try {
+    return axios.post(`${API_URLS.createNotification}`, { data });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllNotifications = () => {
+  try {
+    return axios.get(`${API_URLS.getAllNotifications}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const removeNotificationApiCall = (notificationId) => {
+  try {
+    return axios.delete(`${API_URLS.removeNotification}${notificationId}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUser = (userId) => {
+  try {
+    return axios.get(`${API_URLS.getUser}${userId}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUser = (userId, updatedUser) => {
+  try {
+    return axios.put(`${API_URLS.updateUser}${userId}`, { updatedUser });
   } catch (error) {
     throw error;
   }

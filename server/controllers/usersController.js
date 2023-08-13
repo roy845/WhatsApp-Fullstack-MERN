@@ -1,90 +1,141 @@
 const { hashPassword } = require("../helpers/authHelper");
-const Message = require("../models/Message");
-const User = require("../models/User");
+const User = require("../models/UserModel");
+const asyncHandler = require("express-async-handler");
 
-const getUsersController = async (req, res) => {
+const searchUsersController = asyncHandler(async (req, res) => {
+  const currentUser = await User.findById(req.user.id);
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+
+  const users = await User.find({
+    ...keyword,
+    _id: { $ne: req.user.id, $nin: currentUser?.blockedUsers }, // Exclude the current user and users the current user has blocked
+    blockedUsers: { $ne: req.user.id }, // Exclude users who have blocked the current user
+  });
+
+  res.status(200).send(users);
+});
+
+const addUsersToBlockedListController = asyncHandler(async (req, res) => {
+  const { userIdsToBlock } = req.body;
+
+  if (!userIdsToBlock || !Array.isArray(userIdsToBlock)) {
+    return res.status(400).send({
+      message: "Invalid input. Please provide an array of user IDs to block.",
+    });
+  }
+
+  // Add the current user to the blockedUsers list of each user in userIdsToBlock
+  const blockBackResult = await User.updateMany(
+    { _id: { $in: userIdsToBlock } },
+    { $addToSet: { blockedUsers: req.user.id } }
+  );
+
+  if (blockBackResult.nModified === 0) {
+    return res.status(400).send({
+      message:
+        "Failed to update the blocked list for the specified users or no changes were made.",
+    });
+  }
+
+  res.status(200).send({
+    message: "Users Blocked Successfully",
+  });
+});
+
+const removeUsersFromBlockedListController = asyncHandler(async (req, res) => {
+  const { userIdsToRemove } = req.body;
+
+  if (!userIdsToRemove || !Array.isArray(userIdsToRemove)) {
+    return res.status(400).send({
+      message:
+        "Invalid input. Please provide an array of user IDs to remove from the blocked list.",
+    });
+  }
+
+  // Remove the current user from the blockedUsers list of each user in userIdsToRemove
+  const unblockResult = await User.updateMany(
+    { _id: { $in: userIdsToRemove } },
+    { $pull: { blockedUsers: req.user.id } }
+  );
+
+  if (unblockResult.nModified === 0) {
+    return res.status(400).send({
+      message:
+        "Failed to update the blocked list of the specified users or no changes were made.",
+    });
+  }
+
+  res.status(200).send({
+    message:
+      "Successfully removed from the blocked lists of the specified users.",
+  });
+});
+
+const searchBlockedListUsersController = asyncHandler(async (req, res) => {
+  try {
+    const keyword = req.query.search
+      ? {
+          blockedUsers: req.user.id,
+          $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
+          ],
+        }
+      : {
+          blockedUsers: req.user.id,
+        };
+
+    const users = await User.find(keyword);
+    res.status(200).send(users);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send(error.message);
+  }
+});
+
+const getUserController = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    const user = await User.findById(userId);
+    // Find the user by its ID
+    const user = await User.findById(userId).select("-password"); // Excluding the password from the result
+
     if (!user) {
-      return res.status(404).send({ message: "User not found." });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    // Fetch latest messages related to the given user
-    const aggregateResult = await Message.aggregate([
-      {
-        $match: {
-          $or: [{ senderId: userId }, { receiverId: userId }],
-        },
-      },
-      {
-        $sort: { createdAt: -1 },
-      },
-      {
-        $group: {
-          _id: {
-            $cond: [{ $eq: ["$senderId", userId] }, "$receiverId", "$senderId"],
-          },
-          latestMessageDate: { $first: "$createdAt" },
-        },
-      },
-    ]);
-
-    const userWithMessagesMap = {};
-    aggregateResult.forEach((item) => {
-      userWithMessagesMap[item._id] = item.latestMessageDate;
-    });
-
-    // Fetch all users excluding the blocked ones and current user
-    const allUsers = await User.find({
-      _id: { $nin: [userId, ...user.blockedUsers] },
-    });
-
-    const usersWithTimestamp = allUsers.map((u) => {
-      return {
-        user: u,
-        latestMessageDate: userWithMessagesMap[u._id] || new Date(0), // Default to oldest date for users without messages
-      };
-    });
-
-    // Sort based on the timestamp
-    usersWithTimestamp.sort(
-      (a, b) => b.latestMessageDate - a.latestMessageDate
-    );
-
-    const sortedUsers = usersWithTimestamp.map((u) => u.user);
-
-    res.status(200).send(sortedUsers);
+    res.status(200).json(user);
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Error in getting users ordered by message date",
-      error,
-    });
+    res
+      .status(500)
+      .json({ message: "Error fetching user", error: error.message });
   }
 };
 
 const updateUserController = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { userId } = req.params;
     const { updatedUser } = req.body;
 
-    const user = await User.findById(id);
+    const user = await User.findById(userId);
 
     const updateUser = await User.findByIdAndUpdate(
-      id,
+      userId,
       {
-        FirstName: updatedUser.FirstName || user.FirstName,
-        LastName: updatedUser.LastName || user.LastName,
-        UserName: updatedUser.UserName || user.UserName,
+        name: updatedUser.name || user.name,
+        email: updatedUser.email || user.email,
+        password:
+          updatedUser.password === ""
+            ? user.password
+            : await hashPassword(updatedUser.password),
         profilePic: updatedUser.profilePic === "" ? "" : updatedUser.profilePic,
-        Password:
-          updatedUser.Password === ""
-            ? user.Password
-            : await hashPassword(updatedUser.Password),
-        status: updatedUser.status || user.status,
       },
       { new: true }
     );
@@ -101,119 +152,25 @@ const updateUserController = async (req, res) => {
       message: "User updated successfully",
       user: {
         _id: updateUser._id,
-        username: updateUser.UserName,
-        firstName: updateUser.FirstName,
-        lastName: updateUser.LastName,
+        name: updateUser.name,
+        email: updateUser.email,
+        isAdmin: updateUser.isAdmin,
         profilePic: updateUser.profilePic,
-        status: updateUser.status,
+        createdAt: updateUser.createdAt,
       },
     });
   } catch (error) {
-    res.status(500).send({
-      success: false,
-      message: "Error in updating user",
-      error,
-    });
-  }
-};
-
-const getUnblockedUsersController = async (req, res) => {
-  try {
-    const { userId } = req.params;
-
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).send({ message: "User not found." });
-    }
-
-    // Find all users not in the user's blockedUsers array
-    const unblockedUsers = await User.find({
-      _id: { $nin: [...user.blockedUsers, userId] },
-    })
-      .select("-Password")
-      .populate("blockedUsers");
-
-    res.send(unblockedUsers);
-  } catch (err) {
-    res.status(500).send({ message: "Internal server error." });
-  }
-};
-
-const blockUserController = async (req, res) => {
-  try {
-    const { userId, blockedUserId } = req.params;
-    // Find current user by ID and add the blocked user's ID to the blockedUsers array
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { $addToSet: { blockedUsers: blockedUserId } },
-      { new: true }
-    );
-
-    // Find the blocked user by ID and add the current user's ID to their blockedUsers array
-    const blockedUser = await User.findByIdAndUpdate(
-      blockedUserId,
-      { $addToSet: { blockedUsers: userId } },
-      { new: true }
-    );
-
-    if (!user || !blockedUser) {
-      return res.status(404).send({ message: "User not found." });
-    }
-
-    res.send({ message: "Users blocked each other successfully." });
-  } catch (err) {
-    res.status(500).send({ message: "Internal server error." });
-  }
-};
-
-const getBlockedUsersController = async (req, res) => {
-  try {
-    const { userId } = req.params;
-    // Find the user by userId and populate the blockedUsers array
-    const user = await User.findById(userId).populate("blockedUsers");
-
-    if (!user) {
-      return res.status(404).send({ message: "User not found." });
-    }
-
-    res.send(user.blockedUsers);
-  } catch (error) {
-    res.status(500).send({ message: "Internal server error." });
-  }
-};
-
-const unBlockUserController = async (req, res) => {
-  try {
-    const { userId, blockedUserId } = req.params;
-    // Find current user by ID and remove the blocked user's ID from the blockedUsers array
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { $pull: { blockedUsers: blockedUserId } },
-      { new: true }
-    );
-
-    // Find the blocked user by ID and remove the current user's ID from their blockedUsers array
-    const blockedUser = await User.findByIdAndUpdate(
-      blockedUserId,
-      { $pull: { blockedUsers: userId } },
-      { new: true }
-    );
-
-    if (!user || !blockedUser) {
-      return res.status(404).send({ message: "User not found." });
-    }
-
-    res.send({ message: "Users unblocked each other successfully." });
-  } catch (err) {
-    res.status(500).send({ message: "Internal server error." });
+    res
+      .status(500)
+      .json({ message: "Error updating user", error: error.message });
   }
 };
 
 module.exports = {
-  getUsersController,
+  searchUsersController,
+  getUserController,
   updateUserController,
-  getUnblockedUsersController,
-  blockUserController,
-  unBlockUserController,
-  getBlockedUsersController,
+  addUsersToBlockedListController,
+  removeUsersFromBlockedListController,
+  searchBlockedListUsersController,
 };
