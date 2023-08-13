@@ -1,7 +1,7 @@
 # Messenger App (Whatsapp-like)
 
 A real-time messaging application built with Socket.io for instant data push from server to client.
-This project is build with ReactJs,NodeJS,MongoDB,Express,JWT.
+This project is build with ReactJs,NodeJS,MongoDB,Express,JWT and Firebase.
 
 ## Tech Stack
 
@@ -15,7 +15,6 @@ This project is build with ReactJs,NodeJS,MongoDB,Express,JWT.
 
 <img src = "https://cdn.worldvectorlogo.com/logos/jwt-3.svg" width = "60px" height = "60px">
 
-
 - <b>Real-Time Data Transfer:</b> Socket.io
 
  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Socket-io.svg/600px-Socket-io.svg.png?20200308235956" width="124px" height="124px">
@@ -24,19 +23,20 @@ This project is build with ReactJs,NodeJS,MongoDB,Express,JWT.
 
 <img src="https://upload.wikimedia.org/wikipedia/he/a/a7/React-icon.svg" width="124px" height="124px">
 
-**Material UI**
-  <img src="https://imgtr.ee/images/2023/08/05/d973e444eea4230bcba93cb79b1168e0.png" alt="d973e444eea4230bcba93cb79b1168e0.png" width = "60px" height = "60px">
+**Chakra UI**
+<img src="data:image/jpeg;base64,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" alt="d973e444eea4230bcba93cb79b1168e0.png" width = "60px" height = "60px">
 
 - **IDE**
 
 **VSCODE**
 <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" width="60px" height="60px">
 
-
 <b>Database:</b> MongoDB
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" width="124px" height="124px">
 
+**Firebase**
+<img src = "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-firebase-icon.png" width = "60px" height = "60px">
 
 ## Core Principle
 
@@ -45,61 +45,75 @@ The essence of a real-time messaging app like this one lies in its ability to im
 ## Features
 
 1. New user registration through a register page
-   <img src="https://imgtr.ee/images/2023/08/09/24f4464121f457e5abfb7848f743e673.png" alt="24f4464121f457e5abfb7848f743e673.png" width="800px" height = "400px">
+   <a href="https://ibb.co/pbf5s2x"><img src="https://i.ibb.co/djPx3Br/register-page.png" alt="register-page"></a>
 
 2. User authentication through a login page.
-   <img src="https://imgtr.ee/images/2023/08/09/3e7192ce37c6d3cc5745c6dba6ff8693.png" alt="3e7192ce37c6d3cc5745c6dba6ff8693.png" width="800px" height = "400px">
+   <a href="https://ibb.co/GQGxGsV"><img src="https://i.ibb.co/7tBYBgG/login-page.png" alt="login-page"></a>
 
 3. Menu navigation to different pages in the app.
-   <img src="https://imgtr.ee/images/2023/08/09/004c5c78d43cb63f2f43031431d8cc8a.png" alt="004c5c78d43cb63f2f43031431d8cc8a.png" width="100%">
+   <a href="https://ibb.co/zxBNLh3"><img src="https://i.ibb.co/4tXJDZb/navigation-menu.png" alt="navigation-menu"></a>
+
 4. User profile editing (editing Profile Picture, Username,FullName,Password and Status).
-   <img src="https://imgtr.ee/images/2023/08/09/72598977378ba2bd3f1422db224ef91f.png" alt="72598977378ba2bd3f1422db224ef91f.png" width="800px" height = "400px">
+   <a href="https://ibb.co/0MSHM2m"><img src="https://i.ibb.co/wWX5WgB/Profile-page.png" alt="Profile-page"></a>
 
 5. Search individual chats/groups
-   <img src="https://imgtr.ee/images/2023/08/09/edb7607eac7d715714a8710eeb3ff82c.png" alt="edb7607eac7d715714a8710eeb3ff82c.png" width="800px" height = "400px">
+   <a href="https://ibb.co/fC0Jvdc"><img src="https://i.ibb.co/wK6tshv/search-chats-screen.png" alt="search-chats-screen"></a>
+
+6. Search users to add to chat
+
+<a href="https://ibb.co/QXGsWCX"><img src="https://i.ibb.co/FntGQ0n/search-users-to-add-to-chat-screen.png" alt="search-users-to-add-to-chat-screen"></a>
 
 6. User-to-user direct messaging (with emoji's) and user to group messaging (send/receive).
 
 - user-to-user direct messaging
-  <img src="https://imgtr.ee/images/2023/08/09/c79e6b8a92157de36107899a8ece1fa1.png" alt="c79e6b8a92157de36107899a8ece1fa1.png" width="800px" height = "400px">
+
+<a href="https://ibb.co/r0QyL8X"><img src="https://i.ibb.co/1Q02py4/direct-one-to-one-messaging-screen.png" alt="direct-one-to-one-messaging-screen"></a>
 
 - user-to-group messaging
-  <img src="https://imgtr.ee/images/2023/08/09/3def816116653fbe43d7331735e33890.png" alt="3def816116653fbe43d7331735e33890.png" width="800px" height = "400px">
 
-- emoji picker direct messaging
-  <img src="https://imgtr.ee/images/2023/08/09/fd517a75eff419c7a6e4535da4d90454.png" alt="fd517a75eff419c7a6e4535da4d90454.png" width="800px" height = "400px">
+<a href="https://ibb.co/zFPmYPg"><img src="https://i.ibb.co/7QrS5rD/group-messaging-screen.png" alt="group-messaging-screen"></a>
 
-- emoji picker group messaging
-  <img src="https://imgtr.ee/images/2023/08/09/9dd02135966650acc91cb557b9b4cd82.png" alt="9dd02135966650acc91cb557b9b4cd82.png" width="800px" height = "400px">
+<a href="https://ibb.co/r4zPqwb"><img src="https://i.ibb.co/4PXyCVs/group-messaging-screen-2.png" alt="group-messaging-screen-2"></a>
+
+- emoji picker
+
+<a href="https://ibb.co/M127ySX"><img src="https://i.ibb.co/pK0d6wm/emoji-picker-screen.png" alt="emoji-picker-screen"></a>
 
 7. Group creation and adding/removing users to/from groups.
-   <img src="https://imgtr.ee/images/2023/08/09/4d8539cd049a28893d8c4c39a9faf2ff.png" alt="4d8539cd049a28893d8c4c39a9faf2ff.png" width="800px" height = "400px">
-   <img src="https://imgtr.ee/images/2023/08/09/d8917041db66b63a9f767c08475107fe.png" alt="d8917041db66b63a9f767c08475107fe.png" width="800px" height = "400px">
 
-8. group updation (editing group name,profile picture,adding/deleting users,deleting group) by user creator (who creates the group) also if group creator left the chat the system randomly picks one of the group members to be the creator of the group.
-   <img src="https://imgtr.ee/images/2023/08/09/68a5b6003d15d7fa1598c5b4c63955da.png" alt="68a5b6003d15d7fa1598c5b4c63955da.png" width="800px" height = "400px">
-   <img src="https://imgtr.ee/images/2023/08/09/739b949596356c9f08dcb3b59b7370a2.png" alt="739b949596356c9f08dcb3b59b7370a2.png" width="800px" height = "400px">
-   <img src="https://imgtr.ee/images/2023/08/09/414452fd321109e211781c5d1e3d24b9.png" alt="414452fd321109e211781c5d1e3d24b9.png" width="800px" height = "400px">
+<a href="https://ibb.co/RD8VzWb"><img src="https://i.ibb.co/S3S9Rpy/add-to-group-screen.png" alt="add-to-group-screen"></a>
+
+8. group updation (editing group name,adding/deleting users) by user creator (who creates the group) also if group creator left the chat the system randomly picks one of the group members to be the creator of the group.
+
+<a href="https://ibb.co/zrYCj3t"><img src="https://i.ibb.co/80pGTyQ/group-updation-screen.png" alt="group-updation-screen"></a>
+
 9. Ability for users to leave a group.
-   <img src="https://imgtr.ee/images/2023/08/09/566dea02418776e185f8d4e1f0cfca81.png" alt="566dea02418776e185f8d4e1f0cfca81.png" width="800px" height = "400px">
+
+<a href="https://ibb.co/zrYCj3t"><img src="https://i.ibb.co/80pGTyQ/group-updation-screen.png" alt="group-updation-screen"></a>
+
 10. Viewing list of groups a user is a part of.
-    <img src="https://imgtr.ee/images/2023/08/09/84132c8a05000aa7c93c52e6867da568.png" alt="84132c8a05000aa7c93c52e6867da568.png" width="800px" height = "400px">
+
+<a href="https://ibb.co/v1jw4rF"><img src="https://i.ibb.co/K6r0xQP/chats-page.png" alt="chats-page"></a>
+
 11. Blocking and unblocking other users.
 
-- Settings
-  <img src="https://imgtr.ee/images/2023/08/09/560eb822e57f3b6dac6e91f3e049c067.png" alt="560eb822e57f3b6dac6e91f3e049c067.png" width="800px" height = "400px">
+<a href="https://ibb.co/kXKRrQD"><img src="https://i.ibb.co/fHMhK4N/block-unblock-users-screen.png" alt="block-unblock-users-screen"></a>
 
-- Account Privacy
-  <img src="https://imgtr.ee/images/2023/08/09/eec0669e0b836ba14a9a5edfe322f9c5.png" alt="eec0669e0b836ba14a9a5edfe322f9c5.png" width="800px" height = "400px">
+- blocked users
 
-- Blocked Users
-  <img src="https://imgtr.ee/images/2023/08/09/10283365926c17ff69fa683d415e8dd8.png" alt="10283365926c17ff69fa683d415e8dd8.png" width="800px" height = "400px">
+<a href="https://ibb.co/mC5gNry"><img src="https://i.ibb.co/7JtLkxp/blocked-user-screen.png" alt="blocked-user-screen"></a>
 
-- Add Users To Block
-  <img src="https://imgtr.ee/images/2023/08/09/58ffbe64ac172e41eeeb21a4420d7d64.png" alt="58ffbe64ac172e41eeeb21a4420d7d64.png" width="800px" height = "400px">
+<a href="https://ibb.co/tqT7X4s"><img src="https://i.ibb.co/wSF9sRW/blocked-user-screen-2.png" alt="blocked-user-screen-2"></a>
 
 12. Viewing the last 20 conversations(this done by checkbox selecting - if checked the system will filter the last 20 conversations that the user interacts with - users are sorted by last message date).
-    <img src="https://imgtr.ee/images/2023/08/09/6fd85fff03f89039c3f11320528f6192.png" alt="6fd85fff03f89039c3f11320528f6192.png" width="800px" height = "400px">
+
+<a href="https://ibb.co/8MpwT2z"><img src="https://i.ibb.co/xh0bPGm/view-last-20-conversations-page.png" alt="view-last-20-conversations-page"></a>
+
+13. View for notifications
+
+<a href="https://ibb.co/kQZm28B"><img src="https://i.ibb.co/Rz8jT0b/notifications-screen.png" alt="notifications-screen"></a>
+
+<a href="https://ibb.co/W30mvsY"><img src="https://i.ibb.co/VNxfY3P/notifications-screen-2.png" alt="notifications-screen-2"></a>
 
 ### Installation and Setup
 
@@ -156,15 +170,3 @@ JWT_SECRET_KEY=generated_secret_key
 5. Save the .env file.
 
 6. Run the server: node server.js.
-
-### Socket
-
-<b>Install the dependencies and start the socket</b>
-
-1. Open a new terminal in VSCODE.
-
-2. Navigate to the socket directory: cd socket.
-
-3. Install dependencies: npm/yarn install.
-
-4. Run the socket: npm/yarn start.
