@@ -45,75 +45,75 @@ The essence of a real-time messaging app like this one lies in its ability to im
 ## Features
 
 1. New user registration through a register page
-   <img src="https://i.ibb.co/djPx3Br/register-page.png" width="800px" height = "400px" alt="register-page">
+   <a href="https://ibb.co/Y708PMh"><img src="https://i.ibb.co/KjK7bkW/register-page.png" alt="register-page" border="0"></a>
 
 2. User authentication through a login page.
-   <img src="https://i.ibb.co/7tBYBgG/login-page.png" width="800px" height = "400px" alt="login-page">
+   <a href="https://ibb.co/Tr9nWZ6"><img src="https://i.ibb.co/pnYshgc/login-page.png" alt="login-page" border="0"></a>
 
 3. Menu navigation to different pages in the app.
-   <img src="https://i.ibb.co/4tXJDZb/navigation-menu.png" width="800px" height = "400px" alt="navigation-menu">
+   <a href="https://ibb.co/vdMBZYd"><img src="https://i.ibb.co/JpSd5Qp/navigation-menu.png" alt="navigation-menu" border="0"></a>
 
 4. User profile editing (editing Profile Picture, Username,FullName,Password and Status).
-   <img src="https://i.ibb.co/wWX5WgB/Profile-page.png" width="800px" height = "400px" alt="Profile-page">
+   <a href="https://ibb.co/0hBc335"><img src="https://i.ibb.co/ChJzFFL/Profile-page.png" alt="Profile-page" border="0"></a>
 
 5. Search individual chats/groups
-   <img src="https://i.ibb.co/wK6tshv/search-chats-screen.png" height = "100%" alt="search-chats-screen">
+   <a href="https://ibb.co/6gpjjdR"><img src="https://i.ibb.co/XSdccwZ/search-chats-screen.png" alt="search-chats-screen" border="0"></a>
 
 6. Search users to add to chat
 
-<img src="https://i.ibb.co/FntGQ0n/search-users-to-add-to-chat-screen.png" width="800px" height = "400px" alt="search-users-to-add-to-chat-screen">
+<a href="https://ibb.co/wMVw6dc"><img src="https://i.ibb.co/syn63gW/search-users-to-add-to-chat-screen.png" alt="search-users-to-add-to-chat-screen" border="0"></a>
 
 6. User-to-user direct messaging (with emoji's) and user to group messaging (send/receive).
 
 - user-to-user direct messaging
 
-<img src="https://i.ibb.co/1Q02py4/direct-one-to-one-messaging-screen.png" width="800px" height = "400px" alt="direct-one-to-one-messaging-screen">
+<a href="https://ibb.co/fr8Xh6W"><img src="https://i.ibb.co/F8shSZ1/direct-one-to-one-messaging-screen.png" alt="direct-one-to-one-messaging-screen" border="0"></a>
 
 - user-to-group messaging
 
-<img src="https://i.ibb.co/7QrS5rD/group-messaging-screen.png" width="800px" height = "400px" alt="group-messaging-screen">
+<a href="https://ibb.co/mJm5XXG"><img src="https://i.ibb.co/F69400K/group-messaging-screen.png" alt="group-messaging-screen" border="0"></a>
 
-<img src="https://i.ibb.co/4PXyCVs/group-messaging-screen-2.png" width="800px" height = "400px" alt="group-messaging-screen-2">
+<a href="https://ibb.co/bHzJ8WT"><img src="https://i.ibb.co/7g246YP/group-messaging-screen-2.png" alt="group-messaging-screen-2" border="0"></a>
 
 - emoji picker
 
-<img src="https://i.ibb.co/pK0d6wm/emoji-picker-screen.png" width="800px" height = "400px" alt="emoji-picker-screen">
+<a href="https://ibb.co/4KJFGts"><img src="https://i.ibb.co/PFtrnjT/emoji-picker-screen.png" alt="emoji-picker-screen" border="0"></a>
 
 7. Group creation and adding/removing users to/from groups.
 
-<img src="https://i.ibb.co/S3S9Rpy/add-to-group-screen.png" width="800px" height = "400px" alt="add-to-group-screen">
+<a href="https://ibb.co/kBXvBhC"><img src="https://i.ibb.co/RbcdbCw/add-to-group-screen.png" alt="add-to-group-screen" border="0"></a>
 
 8. group updation (editing group name,adding/deleting users) by user creator (who creates the group) also if group creator left the chat the system randomly picks one of the group members to be the creator of the group.
 
-<img src="https://i.ibb.co/80pGTyQ/group-updation-screen.png" width="800px" height = "400px" alt="group-updation-screen">
+<a href="https://ibb.co/WBGLPtJ"><img src="https://i.ibb.co/HGBjxd8/group-updation-screen.png" alt="group-updation-screen" border="0"></a>
 
 9. Ability for users to leave a group.
 
-<img src="https://i.ibb.co/80pGTyQ/group-updation-screen.png" width="800px" height = "400px" alt="group-updation-screen">
+<a href="https://ibb.co/WBGLPtJ"><img src="https://i.ibb.co/HGBjxd8/group-updation-screen.png" alt="group-updation-screen" border="0"></a>
 
 10. Viewing list of groups a user is a part of.
 
-<img src="https://i.ibb.co/K6r0xQP/chats-page.png" width="800px" height = "400px" alt="chats-page">
+<a href="https://ibb.co/DGRRsnf"><img src="https://i.ibb.co/f8xxB7d/chats-page.png" alt="chats-page" border="0"></a>
 
 11. Blocking and unblocking other users.
 
-<img src="https://i.ibb.co/fHMhK4N/block-unblock-users-screen.png" width="800px" height = "400px" alt="block-unblock-users-screen">
+<a href="https://ibb.co/2kXz0Z9"><img src="https://i.ibb.co/d5nNsmT/block-unblock-users-screen.png" alt="block-unblock-users-screen" border="0"></a>
 
 - blocked users
 
-<img src="https://i.ibb.co/7JtLkxp/blocked-user-screen.png" width="800px" height = "400px" alt="blocked-user-screen">
+<a href="https://ibb.co/QFY8MZY"><img src="https://i.ibb.co/cc2bQP2/blocked-user-screen.png" alt="blocked-user-screen" border="0"></a>
 
-<img src="https://i.ibb.co/wSF9sRW/blocked-user-screen-2.png" width="800px" height = "400px" alt="blocked-user-screen-2">
+<a href="https://ibb.co/CHt6xDy"><img src="https://i.ibb.co/ZMJSy7r/blocked-user-screen-2.png" alt="blocked-user-screen-2" border="0"></a>
 
 12. Viewing the last 20 conversations(this done by checkbox selecting - if checked the system will filter the last 20 conversations that the user interacts with - users are sorted by last message date).
 
-<img src="https://i.ibb.co/xh0bPGm/view-last-20-conversations-page.png" width="800px" height = "400px" alt="view-last-20-conversations-page">
+<a href="https://ibb.co/rxpnbY9"><img src="https://i.ibb.co/JvpXxVZ/view-last-20-conversations-page.png" alt="view-last-20-conversations-page" border="0"></a>
 
 13. View for notifications
 
-<img src="https://i.ibb.co/Rz8jT0b/notifications-screen.png" width="800px" height = "400px" alt="notifications-screen">
+<a href="https://ibb.co/F4NH9LC"><img src="https://i.ibb.co/d41mSwx/notifications-screen.png" alt="notifications-screen" border="0"></a>
 
-<img src="https://i.ibb.co/VNxfY3P/notifications-screen-2.png" width="800px" height = "400px" alt="notifications-screen-2">
+<a href="https://ibb.co/7QjMwnv"><img src="https://i.ibb.co/T1YjV4c/notifications-screen-2.png" alt="notifications-screen-2" border="0"></a>
 
 ### Installation and Setup
 
