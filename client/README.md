@@ -48,7 +48,7 @@ The essence of a real-time messaging app like this one lies in its ability to im
    <a href="https://ibb.co/Y708PMh"><img src="https://i.ibb.co/KjK7bkW/register-page.png" alt="register-page" border="0"></a>
 
 2. User authentication through a login page.
-   <a href="https://ibb.co/Tr9nWZ6"><img src="https://i.ibb.co/pnYshgc/login-page.png" alt="login-page" border="0"></a>
+   <a href="https://ibb.co/0hnJHRY"><img src="https://i.ibb.co/qkD1T3m/login-page-screen-2.png" alt="login-page-screen-2" border="0"></a>
 
 3. Menu navigation to different pages in the app.
    <a href="https://ibb.co/vdMBZYd"><img src="https://i.ibb.co/JpSd5Qp/navigation-menu.png" alt="navigation-menu" border="0"></a>
