@@ -22,6 +22,7 @@ import { useChat } from "../../context/ChatProvider";
 import UserBadgeItem from "../UserAvatar/UserBadgeItem";
 import {
   addToGroupChat,
+  deleteGroup,
   removeFromGroupChat,
   renameGroupChat,
   searchUsers,
@@ -88,13 +89,16 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
     } catch (error) {
       toast({
         title: "Error Occured!",
-        description: error.response.data.message,
+        description: error.response.data,
         status: "error",
         duration: 5000,
         isClosable: true,
         position: "bottom",
       });
       setLoading(false);
+      onClose();
+      setSelectedChat(null);
+      setFetchAgain(!fetchAgain);
     }
     setGroupChatName("");
   };
@@ -154,16 +158,46 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
     } catch (error) {
       toast({
         title: "Error Occured!",
-        description: error.response.data.message,
+        description: error.response.data,
         status: "error",
         duration: 5000,
         isClosable: true,
         position: "top",
       });
       setRenameLoading(false);
+      setFetchAgain(!fetchAgain);
+      onClose();
     }
 
     setGroupChatName("");
+  };
+
+  const handleDeleteGroup = async (chatId) => {
+    try {
+      const { data } = await deleteGroup(chatId);
+      setFetchAgain(!fetchAgain);
+      onClose();
+      setSelectedChat(null);
+      toast({
+        title: data.message,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+    } catch (error) {
+      if (error?.response?.staus === 403) {
+        toast({
+          title: "Error Occured!",
+          description: error.response.data.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+      }
+      setSelectedChat(null);
+    }
   };
 
   return (
@@ -190,6 +224,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            {selectedChat.users.length + " Participants"}
             <Box w="100%" display="flex" flexWrap="wrap" pb={3}>
               {selectedChat.users.map((user) => (
                 <UserBadgeItem
@@ -239,9 +274,21 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={() => handleRemove(auth)} colorScheme="red">
+            <Button
+              onClick={() => handleRemove(auth)}
+              colorScheme="red"
+              style={{ marginRight: "20px" }}
+            >
               Leave Group
             </Button>
+            {auth?._id === selectedChat.groupAdmin?._id && (
+              <Button
+                onClick={() => handleDeleteGroup(selectedChat?._id)}
+                colorScheme="red"
+              >
+                Delete Group
+              </Button>
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>

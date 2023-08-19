@@ -8,9 +8,44 @@ import {
   isSameUser,
 } from "../config/ChatLogics";
 import { useAuth } from "../context/auth";
+import Lottie from "react-lottie";
+import animationDataPdf from "../animations/pdf.json";
+import animationDataWord from "../animations/word.json";
+import animationDataImage from "../animations/image.json";
+import powerPointLogo from "../animations/pptx_icon.png";
+import txtLogo from "../animations/txt.png";
+import audioLogo from "../animations/audio.png";
+import FileDownload from "./FileDownload";
 
-const ScrollableChat = ({ messages }) => {
+const ScrollableChat = ({ messages, searchQuery }) => {
   const { auth } = useAuth();
+
+  const defaultOptionsPdf = {
+    loop: true,
+    autoplay: true,
+    animationData: animationDataPdf,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const defaultOptionsWord = {
+    loop: true,
+    autoplay: true,
+    animationData: animationDataWord,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const defaultOptionsImage = {
+    loop: true,
+    autoplay: true,
+    animationData: animationDataImage,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   return (
     <ScrollableFeed>
@@ -46,7 +81,82 @@ const ScrollableChat = ({ messages }) => {
                 maxWidth: "75%",
               }}
             >
-              {m?.content}
+              {m.file && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {m.file.filetype === "application/pdf" && (
+                    <FileDownload
+                      filename={m.file.filename}
+                      filesize={m.file.filesize}
+                      options={defaultOptionsPdf}
+                    />
+                  )}
+
+                  {m.file.filetype ===
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document" && (
+                    <FileDownload
+                      filename={m.file.filename}
+                      filesize={m.file.filesize}
+                      options={defaultOptionsWord}
+                    />
+                  )}
+                  {m.file.filetype === "image/png" && (
+                    <FileDownload
+                      filename={m.file.filename}
+                      filesize={m.file.filesize}
+                      options={defaultOptionsImage}
+                    />
+                  )}
+                  {m.file.filetype === "image/jpeg" && (
+                    <FileDownload
+                      filename={m.file.filename}
+                      filesize={m.file.filesize}
+                      options={defaultOptionsImage}
+                    />
+                  )}
+                  {m.file.filetype ===
+                    "application/vnd.openxmlformats-officedocument.presentationml.presentation" && (
+                    <FileDownload
+                      filename={m.file.filename}
+                      filesize={m.file.filesize}
+                      imgSrc={powerPointLogo}
+                    />
+                  )}
+                  {m.file.filetype === "text/plain" && (
+                    <FileDownload
+                      filename={m.file.filename}
+                      imgSrc={txtLogo}
+                      filesize={m.file.filesize}
+                    />
+                  )}
+                  {m.file.filetype === "audio/mpeg" && (
+                    <FileDownload
+                      filename={m.file.filename}
+                      filesize={m.file.filesize}
+                      imgSrc={audioLogo}
+                    />
+                  )}
+                </div>
+              )}
+              {console.log(m.file)}
+              {searchQuery
+                ? m.content
+                    .split(new RegExp(`(${searchQuery})`, "gi"))
+                    .map((part, i) =>
+                      part.toLowerCase() === searchQuery.toLowerCase() ? (
+                        <span key={i} style={{ backgroundColor: "yellow" }}>
+                          {part}
+                        </span>
+                      ) : (
+                        part
+                      )
+                    )
+                : m.content}
             </span>
           </div>
         ))}

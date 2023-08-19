@@ -7,6 +7,7 @@ const ChatProvider = ({ children }) => {
   const [chats, setChats] = useState([]);
   const [notification, setNotification] = useState([]);
   const [checked, setChecked] = useState(false);
+  const [isSoundEnabled, setIsSoundEnabled] = useState(true);
 
   return (
     <ChatContext.Provider
@@ -19,6 +20,8 @@ const ChatProvider = ({ children }) => {
         setNotification,
         checked,
         setChecked,
+        isSoundEnabled,
+        setIsSoundEnabled,
       }}
     >
       {children}

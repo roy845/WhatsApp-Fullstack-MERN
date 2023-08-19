@@ -7,6 +7,7 @@ const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
   );
+  const [activeUsers, setActiveUsers] = useState([]);
 
   axios.defaults.headers.common["Authorization"] = auth?.token;
 
@@ -15,6 +16,8 @@ const AuthProvider = ({ children }) => {
       value={{
         auth,
         setAuth,
+        activeUsers,
+        setActiveUsers,
       }}
     >
       {children}

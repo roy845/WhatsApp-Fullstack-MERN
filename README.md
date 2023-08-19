@@ -51,69 +51,105 @@ The essence of a real-time messaging app like this one lies in its ability to im
    <a href="https://ibb.co/0hnJHRY"><img src="https://i.ibb.co/qkD1T3m/login-page-screen-2.png" alt="login-page-screen-2" border="0"></a>
 
 3. Menu navigation to different pages in the app.
-   <a href="https://ibb.co/vdMBZYd"><img src="https://i.ibb.co/JpSd5Qp/navigation-menu.png" alt="navigation-menu" border="0"></a>
+   <a href="https://ibb.co/6H9KBhh"><img src="https://i.ibb.co/9bKxtXX/navigation-menu.png" alt="navigation-menu" border="0"></a>
 
-4. User profile editing (editing Profile Picture, Username,FullName,Password and Status).
-   <a href="https://ibb.co/0hBc335"><img src="https://i.ibb.co/ChJzFFL/Profile-page.png" alt="Profile-page" border="0"></a>
+4. User profile editing (editing Profile Picture, Username,FullName and Password).
+   <a href="https://ibb.co/DpcjHhZ"><img src="https://i.ibb.co/16y4t1k/Profile-page.png" alt="Profile-page" border="0"></a>
 
 5. Search individual chats/groups
-   <a href="https://ibb.co/6gpjjdR"><img src="https://i.ibb.co/XSdccwZ/search-chats-screen.png" alt="search-chats-screen" border="0"></a>
+   <a href="https://ibb.co/j49jtNV"><img src="https://i.ibb.co/VB0k61H/search-chats-screen.png" alt="search-chats-screen" border="0"></a>
 
 6. Search users to add to chat
 
-<a href="https://ibb.co/wMVw6dc"><img src="https://i.ibb.co/syn63gW/search-users-to-add-to-chat-screen.png" alt="search-users-to-add-to-chat-screen" border="0"></a>
+<a href="https://ibb.co/7vD17Pz"><img src="https://i.ibb.co/SNg3qbx/search-users-to-add-to-chat-screen.png" alt="search-users-to-add-to-chat-screen" border="0"></a>
 
-6. User-to-user direct messaging (with emoji's) and user to group messaging (send/receive).
+7. Search messages - when searching the part of the word to be searched is painted in yellow background
+
+- Search individual chat messages
+
+<a href="https://ibb.co/ggpPDm5"><img src="https://i.ibb.co/YjMytPz/user-to-user-search-messages.png" alt="user-to-user-search-messages" border="0"></a>
+
+- Search group messages
+
+<a href="https://ibb.co/s2W675p"><img src="https://i.ibb.co/nbPnp3q/search-messages-group.png" alt="search-messages-group" border="0"></a>
+
+8. User-to-user direct messaging (with emoji's and files!) and user to group messaging (send/receive).
 
 - user-to-user direct messaging
 
-<a href="https://ibb.co/fr8Xh6W"><img src="https://i.ibb.co/F8shSZ1/direct-one-to-one-messaging-screen.png" alt="direct-one-to-one-messaging-screen" border="0"></a>
+<a href="https://ibb.co/Cw7Zzcw"><img src="https://i.ibb.co/yNy1X9N/direct-one-to-one-messaging-screen.png" alt="direct-one-to-one-messaging-screen" border="0"></a>
 
 - user-to-group messaging
 
-<a href="https://ibb.co/mJm5XXG"><img src="https://i.ibb.co/F69400K/group-messaging-screen.png" alt="group-messaging-screen" border="0"></a>
+<a href="https://ibb.co/TMZhHn9"><img src="https://i.ibb.co/8gJ8jR1/group-messaging-screen.png" alt="group-messaging-screen" border="0"></a>
 
-<a href="https://ibb.co/bHzJ8WT"><img src="https://i.ibb.co/7g246YP/group-messaging-screen-2.png" alt="group-messaging-screen-2" border="0"></a>
+<a href="https://ibb.co/YNvhd9t"><img src="https://i.ibb.co/4FBpSyj/group-messaging-screen-2.png" alt="group-messaging-screen-2" border="0"></a>
 
 - emoji picker
 
-<a href="https://ibb.co/4KJFGts"><img src="https://i.ibb.co/PFtrnjT/emoji-picker-screen.png" alt="emoji-picker-screen" border="0"></a>
+<a href="https://ibb.co/KLrCTcT"><img src="https://i.ibb.co/QCKsy7y/emoji-picker-screen.png" alt="emoji-picker-screen" border="0"></a>
 
-7. Group creation and adding/removing users to/from groups.
+- attach file user-to-user messaging
 
-<a href="https://ibb.co/kBXvBhC"><img src="https://i.ibb.co/RbcdbCw/add-to-group-screen.png" alt="add-to-group-screen" border="0"></a>
+<a href="https://ibb.co/nPKSWPd"><img src="https://i.ibb.co/bbGnfbw/one-to-one-messaging-with-attach-files.png" alt="one-to-one-messaging-with-attach-files" border="0"></a>
 
-8. group updation (editing group name,adding/deleting users) by user creator (who creates the group) also if group creator left the chat the system randomly picks one of the group members to be the creator of the group.
+- attached file user-to-user messaging
 
-<a href="https://ibb.co/WBGLPtJ"><img src="https://i.ibb.co/HGBjxd8/group-updation-screen.png" alt="group-updation-screen" border="0"></a>
+<a href="https://ibb.co/Ct31t6p"><img src="https://i.ibb.co/3s9rsv5/one-to-one-messaging-with-attached-files.png" alt="one-to-one-messaging-with-attached-files" border="0"></a>
 
-9. Ability for users to leave a group.
+- attach file user-to-group messaging
 
-<a href="https://ibb.co/WBGLPtJ"><img src="https://i.ibb.co/HGBjxd8/group-updation-screen.png" alt="group-updation-screen" border="0"></a>
+<a href="https://ibb.co/GnzMfX4"><img src="https://i.ibb.co/pbYK6gB/group-messaging-attach-file.png" alt="group-messaging-attach-file" border="0"></a>
 
-10. Viewing list of groups a user is a part of.
+- attached file user-to-group messaging
 
-<a href="https://ibb.co/DGRRsnf"><img src="https://i.ibb.co/f8xxB7d/chats-page.png" alt="chats-page" border="0"></a>
+<a href="https://ibb.co/R05spgx"><img src="https://i.ibb.co/SnLMX6h/group-messaging-attached-file.png" alt="group-messaging-attached-file" border="0"></a>
 
-11. Blocking and unblocking other users.
+<a href="https://ibb.co/vqz9qW0"><img src="https://i.ibb.co/ZXT9Xrq/group-messaging-attached-file-2.png" alt="group-messaging-attached-file-2" border="0"></a>
 
-<a href="https://ibb.co/2kXz0Z9"><img src="https://i.ibb.co/d5nNsmT/block-unblock-users-screen.png" alt="block-unblock-users-screen" border="0"></a>
+9. Group creation and adding/removing users to/from groups.
+
+<a href="https://ibb.co/mT4LQm5"><img src="https://i.ibb.co/8s9WFJg/add-to-group-screen.png" alt="add-to-group-screen" border="0"></a>
+
+10. group updation (editing group name,adding/deleting users) by user creator (who creates the group) also if group creator left the chat the system randomly picks one of the group members to be the creator of the group.
+
+<a href="https://ibb.co/yBK2Q1k"><img src="https://i.ibb.co/dJXZ5qp/group-updation-screen.png" alt="group-updation-screen" border="0"></a>
+
+11. Ability for users to leave a group.
+
+<a href="https://ibb.co/yBK2Q1k"><img src="https://i.ibb.co/dJXZ5qp/group-updation-screen.png" alt="group-updation-screen" border="0"></a>
+
+12. Delete Group (only who create the group allow to delete it)
+
+<a href="https://ibb.co/yBK2Q1k"><img src="https://i.ibb.co/dJXZ5qp/group-updation-screen.png" alt="group-updation-screen" border="0"></a>
+
+13. Viewing list of groups a user is a part of.
+
+<a href="https://ibb.co/PTfkv9x"><img src="https://i.ibb.co/XyvHr3X/chats-page.png" alt="chats-page" border="0"></a>
+
+14. Blocking and unblocking other users.
+
+<a href="https://ibb.co/XVv7Lqr"><img src="https://i.ibb.co/g6BS9xL/block-unblock-users-screen.png" alt="block-unblock-users-screen" border="0"></a>
 
 - blocked users
 
-<a href="https://ibb.co/QFY8MZY"><img src="https://i.ibb.co/cc2bQP2/blocked-user-screen.png" alt="blocked-user-screen" border="0"></a>
+<a href="https://ibb.co/1ZkD8qZ"><img src="https://i.ibb.co/WnLbgyn/blocked-user-screen.png" alt="blocked-user-screen" border="0"></a>
 
-<a href="https://ibb.co/CHt6xDy"><img src="https://i.ibb.co/ZMJSy7r/blocked-user-screen-2.png" alt="blocked-user-screen-2" border="0"></a>
+<a href="https://ibb.co/mJH6r73"><img src="https://i.ibb.co/7vG2xFq/blocked-user-screen-2.png" alt="blocked-user-screen-2" border="0"></a>
 
-12. Viewing the last 20 conversations(this done by checkbox selecting - if checked the system will filter the last 20 conversations that the user interacts with - users are sorted by last message date).
+15. Viewing the last 20 conversations(this done by checkbox selecting - if checked the system will filter the last 20 conversations that the user interacts with - users are sorted by last message date).
 
-<a href="https://ibb.co/rxpnbY9"><img src="https://i.ibb.co/JvpXxVZ/view-last-20-conversations-page.png" alt="view-last-20-conversations-page" border="0"></a>
+<a href="https://ibb.co/26tQyKL"><img src="https://i.ibb.co/hMWjy8n/view-last-20-conversations-page.png" alt="view-last-20-conversations-page" border="0"></a>
 
-13. View for notifications
+16. Enable/Disable Message Send / Receive Sounds
 
-<a href="https://ibb.co/F4NH9LC"><img src="https://i.ibb.co/d41mSwx/notifications-screen.png" alt="notifications-screen" border="0"></a>
+<a href="https://ibb.co/26tQyKL"><img src="https://i.ibb.co/hMWjy8n/view-last-20-conversations-page.png" alt="view-last-20-conversations-page" border="0"></a>
 
-<a href="https://ibb.co/7QjMwnv"><img src="https://i.ibb.co/T1YjV4c/notifications-screen-2.png" alt="notifications-screen-2" border="0"></a>
+17. View for notifications
+
+<a href="https://ibb.co/xFjbZgM"><img src="https://i.ibb.co/XYsPH5z/notifications-screen.png" alt="notifications-screen" border="0"></a>
+
+<a href="https://ibb.co/tH2fv76"><img src="https://i.ibb.co/yNkTZwC/notifications-screen-2.png" alt="notifications-screen-2" border="0"></a>
 
 ### Installation and Setup
 

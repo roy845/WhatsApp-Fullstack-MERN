@@ -21,6 +21,7 @@ const API_URLS = {
   removeNotification: `${BASE_URL}api/notifications/removeNotification/`,
   getUser: `${BASE_URL}api/users/getUser/`,
   updateUser: `${BASE_URL}api/users/updateUser/`,
+  deleteGroup: `${BASE_URL}api/chat/deleteGroup/`,
 };
 
 export const login = (email, password) => {
@@ -124,9 +125,13 @@ export const removeFromGroupChat = (chatId, userId) => {
   }
 };
 
-export const sendNewMessage = (chatId, content) => {
+export const sendNewMessage = (formData) => {
   try {
-    return axios.post(`${API_URLS.sendMessage}`, { chatId, content });
+    return axios.post(`${API_URLS.sendMessage}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   } catch (error) {
     throw error;
   }
@@ -175,6 +180,14 @@ export const getUser = (userId) => {
 export const updateUser = (userId, updatedUser) => {
   try {
     return axios.put(`${API_URLS.updateUser}${userId}`, { updatedUser });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteGroup = (chatId) => {
+  try {
+    return axios.delete(`${API_URLS.deleteGroup}${chatId}`);
   } catch (error) {
     throw error;
   }

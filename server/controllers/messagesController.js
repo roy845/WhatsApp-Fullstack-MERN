@@ -9,6 +9,16 @@ const sendMessageController = asyncHandler(async (req, res) => {
   if (!content || !chatId) {
     return res.status(400).send("Invalid Data passed into request");
   }
+  console.log(req.file);
+
+  let fileData = null;
+  if (req.file) {
+    fileData = {
+      filename: req.file.filename,
+      filetype: req.file.mimetype,
+      filesize: req.file.size,
+    };
+  }
 
   try {
     // Fetch the chat to get the users
@@ -60,6 +70,7 @@ const sendMessageController = asyncHandler(async (req, res) => {
       sender: req.user.id,
       content: content,
       chat: chatId,
+      file: fileData,
     };
 
     let message = await new Message(newMessage).save();
@@ -71,10 +82,11 @@ const sendMessageController = asyncHandler(async (req, res) => {
       select: "name profilePic email",
     });
 
-    await Chat.findByIdAndUpdate(chatId, { latestMessage: message });
+    await Chat.findByIdAndUpdate(chat, { latestMessage: message });
 
     res.json(message);
   } catch (error) {
+    console.log(error);
     return res.status(400).send(error.message);
   }
 });

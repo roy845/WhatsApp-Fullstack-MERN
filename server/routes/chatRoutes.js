@@ -6,6 +6,7 @@ const {
   renameGroupChatController,
   removeFromGroupChatController,
   addToGroupChatController,
+  deleteGroupChatController,
 } = require("../controllers/chatController");
 const { requireSignIn } = require("../middlewares/authMiddleware");
 
@@ -32,5 +33,8 @@ router.put("/addToGroupChat", requireSignIn, addToGroupChatController);
 
 //renameGroupChat || METHOD PUT
 router.put("/renameGroupChat", requireSignIn, renameGroupChatController);
+
+//renameGroupChat || METHOD DELETE
+router.delete("/deleteGroup/:chatId", requireSignIn, deleteGroupChatController);
 
 module.exports = router;

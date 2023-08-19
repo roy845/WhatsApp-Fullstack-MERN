@@ -17,10 +17,11 @@ import {
   ModalOverlay,
   Spinner,
   Text,
+  Tooltip,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, SearchIcon } from "@chakra-ui/icons";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
@@ -38,26 +39,50 @@ import animationData from "../animations/typing.json";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { SendIcon } from "../icons/icons";
+import { AttachmentIcon } from "@chakra-ui/icons";
+import ChatProfileModal from "./miscellaneous/ChatProfileModal";
 
 const ENDPOINT = "http://localhost:8800";
 let socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-  const { auth } = useAuth();
+  const { auth, setActiveUsers, activeUsers } = useAuth();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setisTyping] = useState(false);
-  const { selectedChat, setSelectedChat, notification, setNotification } =
-    useChat();
+  const {
+    selectedChat,
+    setSelectedChat,
+    notification,
+    setNotification,
+    isSoundEnabled,
+  } = useChat();
   const [open, setOpen] = useState(false);
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isPressedSend, setIsPressedSend] = useState(false);
+  const [file, setFile] = useState(null);
+  const [isInputOpenChat, setIsInputOpenChat] = useState(false);
+  const [isInputOpenGroupChat, setIsInputOpenGroupChat] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const toggleChatInput = () => {
+    setIsInputOpenChat(!isInputOpenChat);
+  };
+
+  const toggleGroupChatInput = () => {
+    setIsInputOpenGroupChat(!isInputOpenGroupChat);
+  };
+
+  const messageSentSound = new Audio(
+    "/audio/Whatsapp Message - Sent - Sound.mp3"
+  );
+  const messageReceivedSound = new Audio("/audio/message_received.mp3");
 
   const defaultOptions = {
     loop: true,
@@ -77,8 +102,20 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket = io(ENDPOINT);
     socket.emit("setup", auth);
     socket.on("connected", () => setSocketConnected(true));
+    socket.on("getUsers", (users) => {
+      localStorage.setItem("activeUsers", JSON.stringify(users));
+      setActiveUsers(JSON.parse(localStorage.getItem("activeUsers")));
+    });
     socket.on("typing", () => setisTyping(true));
     socket.on("stop typing", () => setisTyping(false));
+
+    return () => {
+      socket.disconnect();
+      socket.on("getUsers", (users) => {
+        localStorage.setItem("activeUsers", JSON.stringify(users));
+        setActiveUsers(JSON.parse(localStorage.getItem("activeUsers")));
+      });
+    };
   }, []);
 
   const fetchMessages = async () => {
@@ -107,11 +144,23 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const sendMessage = async (e) => {
     if ((e?.key === "Enter" && newMessage) || isPressedSend) {
       socket.emit("stop typing", selectedChat._id);
+      const formData = new FormData();
+      formData.append("sender", auth._id);
+      formData.append("content", newMessage);
+      formData.append("chatId", selectedChat._id);
+
+      if (file) {
+        formData.append("file", file);
+      }
       try {
         setNewMessage("");
-        const { data } = await sendNewMessage(selectedChat._id, newMessage);
+        setFile(null);
+        const { data } = await sendNewMessage(formData);
         socket.emit("new message", data);
         setMessages([...messages, data]);
+        if (isSoundEnabled) {
+          messageSentSound.play();
+        }
       } catch (error) {
         console.log(error);
         if (error?.response.status === 403) {
@@ -170,7 +219,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const createNotificationFunc = async (newMessageReceived) => {
     try {
-      console.log(notification);
       const { data } = await createNotification({
         chat: newMessageReceived.chat._id,
         content: newMessageReceived.content,
@@ -198,14 +246,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         // give notification
         if (!notification.includes(newMessageReceived)) {
           createNotificationFunc(newMessageReceived).then((res) => {
-            console.log(res);
             setNotification([res, ...notification]);
           });
+          if (isSoundEnabled) {
+            messageReceivedSound.play();
+          }
 
           setFetchAgain(!fetchAgain);
         }
       } else {
         setMessages([...messages, newMessageReceived]);
+        messageReceivedSound.play();
       }
     };
 
@@ -244,6 +295,20 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+      setNewMessage((prev) => `${prev} ${selectedFile.name}`);
+      setFile(selectedFile);
+    }
+  };
+
+  const searchMessages = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+  };
+
   return (
     <>
       {selectedChat ? (
@@ -266,13 +331,74 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             {!selectedChat.isGroupChat ? (
               <>
                 {getSender(auth, selectedChat.users)}
+                <br />
 
-                <ProfileModal user={getSenderFull(auth, selectedChat.users)} />
+                {activeUsers?.find(
+                  (user) =>
+                    user._id === getSenderFull(auth, selectedChat.users)?._id
+                ) ? (
+                  <div className="status">
+                    <span className="indicator online"></span>
+                    Online
+                  </div>
+                ) : (
+                  <div className="status">
+                    <span className="indicator offline"></span>
+                    Offline
+                  </div>
+                )}
+                {isInputOpenChat ? (
+                  <>
+                    <IconButton
+                      icon={<SearchIcon />}
+                      onClick={toggleChatInput}
+                    />
+                    <Input
+                      style={{ width: "auto" }}
+                      type="search"
+                      onBlur={toggleChatInput}
+                      placeholder="Search Messages"
+                      onChange={(e) => searchMessages(e)}
+                    />
+                  </>
+                ) : (
+                  <IconButton icon={<SearchIcon />} onClick={toggleChatInput} />
+                )}
+                <ChatProfileModal
+                  user={getSenderFull(auth, selectedChat.users)}
+                />
               </>
             ) : (
               <>
                 {selectedChat.chatName.toUpperCase()}
-
+                <div style={{ fontSize: 20 }}>
+                  {selectedChat?.users.length <= 4
+                    ? selectedChat?.users?.map((user) => user.name).join(", ")
+                    : selectedChat?.users
+                        ?.map((user) => user.name)
+                        .splice(0, 4)
+                        .join(", ") + "...."}
+                </div>
+                {isInputOpenGroupChat ? (
+                  <>
+                    <IconButton
+                      icon={<SearchIcon />}
+                      onClick={toggleGroupChatInput}
+                    />
+                    <Input
+                      style={{ width: "auto" }}
+                      type="search"
+                      onBlur={toggleGroupChatInput}
+                      placeholder="Search Messages"
+                      onChange={(e) => searchMessages(e)}
+                    />
+                  </>
+                ) : (
+                  <IconButton
+                    icon={<SearchIcon />}
+                    onClick={toggleGroupChatInput}
+                  />
+                )}
                 <UpdateGroupChatModal
                   fetchAgain={fetchAgain}
                   setFetchAgain={setFetchAgain}
@@ -306,7 +432,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               <div className="messages">
-                <ScrollableChat messages={messages} />
+                <ScrollableChat messages={messages} searchQuery={searchQuery} />
               </div>
             )}
             {showEmojiPicker && (
@@ -338,13 +464,32 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <Button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
                   🙂
                 </Button>
+
+                <Box>
+                  <Input
+                    type="file"
+                    id="file-input"
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                  />
+                  <label htmlFor="file-input">
+                    <Button
+                      style={{ cursor: "pointer" }}
+                      as="span"
+                      leftIcon={
+                        <AttachmentIcon style={{ cursor: "pointer" }} />
+                      }
+                    ></Button>
+                  </label>
+                </Box>
+
                 <Input
                   variant="filled"
                   bg="#ffffff"
                   placeholder="Enter a message.."
                   value={newMessage}
                   onChange={typingHandler}
-                  flex="1" // This will make the input take the remaining space
+                  flex="1"
                 />
 
                 {newMessage && (

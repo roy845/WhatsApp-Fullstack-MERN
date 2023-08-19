@@ -18,6 +18,17 @@ const PORT = process.env.PORT || 8800;
 connectDB();
 const server = app.listen(PORT, () => console.log(`Server Started on ${PORT}`));
 
+let users = [];
+
+const addUser = (userData, socketId) => {
+  !users.some((user) => user._id === userData._id) &&
+    users.push({ ...userData, socketId });
+};
+
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
+
 const io = require("socket.io")(server, {
   pingTimeOut: 60000,
   cors: {
@@ -30,6 +41,9 @@ io.on("connection", (socket) => {
   socket.on("setup", (userData) => {
     console.log(userData._id);
     socket.join(userData._id);
+    addUser(userData, socket.id);
+    io.emit("getUsers", users);
+
     socket.emit("connected");
   });
 
@@ -58,6 +72,12 @@ io.on("connection", (socket) => {
       }
       socket.in(user._id).emit("message received", newMessageReceived);
     });
+  });
+
+  socket.on("disconnect", () => {
+    console.log("USER DISCONNECTED");
+    removeUser(socket.id);
+    io.emit("getUsers", users);
   });
 
   socket.off("setup", () => {

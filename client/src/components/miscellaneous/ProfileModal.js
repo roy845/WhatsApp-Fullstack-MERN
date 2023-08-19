@@ -57,7 +57,7 @@ const ProfileModal = ({ user, children }) => {
     const fetchUser = async () => {
       try {
         const { data } = await getUser(user?._id);
-        console.log(data);
+
         setName(data.name);
         setEmail(data.email);
         setCreatedAt(data.createdAt);
@@ -92,7 +92,7 @@ const ProfileModal = ({ user, children }) => {
 
       const { data } = await updateUser(user?._id, updatedUser);
       const updatedUserFromDB = data.user;
-      console.log(updatedUserFromDB);
+
       setAuth((prev) => ({
         ...prev,
         name: updatedUserFromDB.name,

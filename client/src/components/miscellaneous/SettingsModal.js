@@ -52,7 +52,8 @@ const SettingsModal = ({ children }) => {
   };
 
   const toast = useToast();
-  const { setChats, checked, setChecked } = useChat();
+  const { setChats, checked, setChecked, isSoundEnabled, setIsSoundEnabled } =
+    useChat();
 
   const fetchChats = async () => {
     try {
@@ -254,6 +255,7 @@ const SettingsModal = ({ children }) => {
 
   useEffect(() => {
     setChecked(JSON.parse(localStorage.getItem("checked")));
+    setIsSoundEnabled(JSON.parse(localStorage.getItem("isSoundEnabled")));
   }, []);
 
   return (
@@ -300,6 +302,20 @@ const SettingsModal = ({ children }) => {
 
               <Checkbox onChange={fetchLast20Conversation} isChecked={checked}>
                 Show the last 20 conversations
+              </Checkbox>
+
+              <Checkbox
+                onChange={(e) => {
+                  setIsSoundEnabled(!isSoundEnabled);
+
+                  localStorage.setItem(
+                    "isSoundEnabled",
+                    JSON.stringify(e.target.checked)
+                  );
+                }}
+                isChecked={isSoundEnabled}
+              >
+                Turn on/off messages received/sent sounds
               </Checkbox>
             </VStack>
             {showUsersToBlock && (

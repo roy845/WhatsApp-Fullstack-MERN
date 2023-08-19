@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Chat = require("../models/ChatModel");
 const User = require("../models/UserModel");
 const mongoose = require("mongoose");
+const Message = require("../models/MessageModel");
 
 const createChatController = asyncHandler(async (req, res) => {
   const { userId } = req.body;
@@ -141,7 +142,7 @@ const renameGroupChatController = asyncHandler(async (req, res) => {
     .populate("groupAdmin", "-password");
 
   if (!updatedChat) {
-    return res.status(400).send(error.message);
+    return res.status(400).send("Group is probably deleted");
   } else {
     res.json(updatedChat);
   }
@@ -196,6 +197,33 @@ const removeFromGroupChatController = asyncHandler(async (req, res) => {
 
   res.json(populatedChat);
 });
+const deleteGroupChatController = asyncHandler(async (req, res) => {
+  try {
+    const { chatId } = req.params;
+
+    const chatGroup = await Chat.findById(chatId);
+
+    if (!chatGroup) {
+      return res.status(404).send({ error: "Chat group not found" });
+    }
+
+    if (chatGroup.groupAdmin.toString() !== req.user.id.toString()) {
+      return res
+        .status(403)
+        .send({ error: "You are not authorized to delete this group chat" });
+    }
+
+    await Chat.deleteOne({ _id: chatGroup._id });
+
+    await Message.deleteMany({ chat: chatGroup._id });
+
+    res.send({
+      message: "Chat group and associated messages deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).send({ error: "Server error" });
+  }
+});
 
 module.exports = {
   createChatController,
@@ -204,4 +232,5 @@ module.exports = {
   createGroupChatController,
   removeFromGroupChatController,
   addToGroupChatController,
+  deleteGroupChatController,
 };
